@@ -26,7 +26,6 @@ public class Product {
 		this.extraAtributtes = new ArrayList<>();
 	}
 	
-
 	public void setPrice(double price) {
 		this.price = price;
 	}
@@ -40,8 +39,9 @@ public class Product {
 		return 0; //hacer logica! descuento atributo dinamico?
 	}
 	
-	public Object getValueAtributte() {
-		return null; // hacer logica!
+	public Object getValueAtributte(Atributte atributte) {
+		//rehacer- pensar
+		return 0;
 	}
 	
 	public void setExtraAtributte(Atributte atributte) {
