@@ -1,9 +1,7 @@
 package ecommerce;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 public class Product {
 	private String sku;
@@ -13,7 +11,7 @@ public class Product {
 	private String description;
 	private double price;
 	private double discountRate;
-	private List<Atributte> extraAtributtes;
+	private List<Atributte<?>> extraAtributtes; 
 	
 	public Product(String sku,String name,String brand,String category,String description,double price,double discountRate) {
 		this.sku = sku;
@@ -30,22 +28,16 @@ public class Product {
 		this.price = price;
 	}
 	
-	public Product setDiscountRate(double discountRate) {
+	public void setDiscountRate(double discountRate) {
 		this.discountRate = discountRate;
-		return this;
 	}
-	
+		
+	public void setExtraAtributte(Atributte<?> atributte) {
+		extraAtributtes.add(atributte);
+	}
+
 	public double getFinalPrice() {
 		return 0; //hacer logica! descuento atributo dinamico?
-	}
-	
-	public Object getValueAtributte(Atributte atributte) {
-		//rehacer- pensar
-		return 0;
-	}
-	
-	public void setExtraAtributte(Atributte atributte) {
-		this.extraAtributtes.add(atributte);
 	}
 	
 	public String getSku() {

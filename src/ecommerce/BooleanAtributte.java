@@ -1,9 +1,19 @@
 package ecommerce;
 
-public class BooleanAtributte extends Atributte{
-	Boolean value;
-	
-	public Boolean getValue() {
-		return value; 
+public class BooleanAtributte extends Atributte<Boolean>{
+
+	@Override
+	public boolean hasValue() {
+		return getValue() != null;
+	}
+
+	@Override
+	public String showValue() {
+		return getValue() != null && getValue() ? "true" : "false" ;
+	}
+
+	@Override
+	protected Boolean parsearValue(String value) {
+		return Boolean.parseBoolean(value);
 	}
 }
