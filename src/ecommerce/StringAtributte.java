@@ -13,7 +13,7 @@ public class StringAtributte extends Atributte<String> {
 	}
 
 	@Override
-	protected String parsearValue(String value) {
+	protected String parseValue(String value) {
 		return getValue();
 	}
 }

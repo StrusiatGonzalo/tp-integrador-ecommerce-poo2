@@ -1,19 +1,19 @@
 package ecommerce;
 
 public abstract class Atributte<T> {
-	private String description;
+	private String name;
 	private T value;
 	
-	public String getDescription() {
-		return description;
+	public String getName() {
+		return name;
 	}
 	
 	public T getValue() {
 		return value;
 	}
 	
-	public void setDescription(String description) {
-		this.description = description;
+	public void setName(String name) {
+		this.name = name;
 	}
 	
 	public void setValue(T value) {
@@ -24,7 +24,7 @@ public abstract class Atributte<T> {
 	
 	public abstract String showValue();
 	
-	protected abstract T parsearValue(String value);
+	protected abstract T parseValue(String value);
 		
 }
 

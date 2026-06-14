@@ -13,7 +13,7 @@ public class BooleanAtributte extends Atributte<Boolean>{
 	}
 
 	@Override
-	protected Boolean parsearValue(String value) {
+	protected Boolean parseValue(String value) {
 		return Boolean.parseBoolean(value);
 	}
 }

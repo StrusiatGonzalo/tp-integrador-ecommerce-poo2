@@ -13,7 +13,7 @@ public class DoubleAtributte extends Atributte<Double>{
 	}
 
 	@Override
-	protected Double parsearValue(String value) {
+	protected Double parseValue(String value) {
 		return Double.parseDouble(value); // 
 	}
 
