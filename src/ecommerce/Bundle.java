@@ -3,13 +3,13 @@ package ecommerce;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Package implements CatalogItem{
+public class Bundle implements CatalogItem{
 	private String name;
 	private String description;
 	private double discountRate;
 	private List<CatalogItem> items;
 	
-	public Package(String name, String description,double discountRate) {
+	public Bundle(String name, String description, double discountRate) {
 		this.name = name;
 		this.description = description;
 		this.discountRate = discountRate;

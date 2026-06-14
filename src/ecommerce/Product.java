@@ -13,7 +13,7 @@ public class Product implements CatalogItem {
 	private double discountRate;
 	private List<Atributte<?>> extraAtributtes; 
 	
-	public Product(String sku,String name,String brand,String category,String description,double price) {
+	public Product(String sku,String name,String brand,String category,String description, double price) {
 		this.sku = sku;
 		this.name = name;
 		this.brand = brand;
@@ -31,7 +31,7 @@ public class Product implements CatalogItem {
 	
 	@Override
 	public double getBasePrice() {
-		return 0; //hacer logica! descuento atributo dinamico?
+		return price * (1- discountRate);
 	}
 	
 	@Override
@@ -42,7 +42,6 @@ public class Product implements CatalogItem {
 	public String getSku() {
 		return sku;
 	}
-	
 
 	public String getBrand() {
 		return brand;
@@ -50,11 +49,6 @@ public class Product implements CatalogItem {
 	
 	public String getCategory() {
 		return category;
-	}
-	
-	
-	public double getPrice() {
-		return price;
 	}
 	
 	public double getDiscountRate() {
@@ -66,7 +60,13 @@ public class Product implements CatalogItem {
 	}
 	
 	public void setDiscountRate(double discountRate) {
+		
+		if(discountRate >= 1.0 || discountRate < 0) {
+			throw new IllegalArgumentException("Error: el descuento no puede superar el 100%");
+		}
+		
 		this.discountRate = discountRate;
+	
 	}
 		
 	public void setExtraAtributte(Atributte<?> atributte) {
