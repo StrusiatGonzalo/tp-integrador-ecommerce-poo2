@@ -1,7 +1,12 @@
 package ecommerce;
 
 public class StringAtributte extends Atributte<String> {
-
+	
+	public StringAtributte(String name, String value) {
+		this.value = value;
+		this.name = name;
+	}
+	
 	@Override
 	public boolean hasValue() {
 		return getValue() != null && !getValue().isBlank();

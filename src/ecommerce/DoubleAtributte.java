@@ -1,7 +1,12 @@
 package ecommerce;
 
 public class DoubleAtributte extends Atributte<Double>{
-
+	
+	public DoubleAtributte(String name, Double value) {
+		this.value = value;
+		this.name = name;
+	}
+	
 	@Override
 	public boolean hasValue() {
 		return getValue() != null;

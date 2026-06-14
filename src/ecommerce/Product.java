@@ -39,6 +39,10 @@ public class Product implements CatalogItem {
 		return description;
 	}
 	
+	public List<Atributte<?>> getExtraAtributtes(){
+		return extraAtributtes;
+	}
+	
 	public String getSku() {
 		return sku;
 	}
@@ -53,10 +57,6 @@ public class Product implements CatalogItem {
 	
 	public double getDiscountRate() {
 		return discountRate;
-	}	
-	
-	public void setPrice(double price) {
-		this.price = price;
 	}
 	
 	public void setDiscountRate(double discountRate) {
@@ -69,7 +69,7 @@ public class Product implements CatalogItem {
 	
 	}
 		
-	public void setExtraAtributte(Atributte<?> atributte) {
+	public void addExtraAtributte(Atributte<?> atributte) {
 		extraAtributtes.add(atributte);
 	}
 }

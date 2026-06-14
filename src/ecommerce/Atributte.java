@@ -1,8 +1,8 @@
 package ecommerce;
 
 public abstract class Atributte<T> {
-	private String name;
-	private T value;
+	protected String name;
+	protected T value;
 	
 	public String getName() {
 		return name;
@@ -10,14 +10,6 @@ public abstract class Atributte<T> {
 	
 	public T getValue() {
 		return value;
-	}
-	
-	public void setName(String name) {
-		this.name = name;
-	}
-	
-	public void setValue(T value) {
-		this.value = value;
 	}
 	
 	public abstract boolean hasValue();
