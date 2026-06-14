@@ -21,5 +21,5 @@ public class DoubleAtributte extends Atributte<Double>{
 	protected Double parseValue(String value) {
 		return Double.parseDouble(value); // 
 	}
-
+	
 }

@@ -43,6 +43,17 @@ class AtributtesTest extends ProductTest{
 		assertEquals("200.0", mililitros.showValue());
 	}
 	
+	@Test //test el parseo valor de los atributos dinamicos y el metodo compareTo
+	void testParseValue() {
+		assertTrue(mililitros.compareTo("200.0"));
+		assertTrue(ventaLibre.compareTo("true"));
+		assertTrue(indicacion.compareTo("Quemaduras"));
+		assertFalse(laboratorio.compareTo("Bago"));
+		assertFalse(mililitros.compareTo("201.0"));
+		assertFalse(ventaLibre.compareTo("asd"));
+		
+	}
+	
 	//filtro inicial con atributos estaticos: producto
 	// filtro con atributos dinamicos: productos**
 }

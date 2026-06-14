@@ -19,6 +19,12 @@ public class StringAtributte extends Atributte<String> {
 
 	@Override
 	protected String parseValue(String value) {
-		return getValue();
+		return value;
+	}
+
+	@Override
+	public boolean compareTo(String value) {
+		return getValue().equals(value);
 	}
 }
+
