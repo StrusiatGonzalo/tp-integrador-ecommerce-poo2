@@ -12,9 +12,7 @@ public abstract class Atributte<T> {
 		return value;
 	}
 	
-	public boolean compareTo(String value) {
-		return getValue().equals(parseValue(value));
-	}
+	public abstract  boolean compareTo(String value);
 	
 	public abstract boolean hasValue();
 	

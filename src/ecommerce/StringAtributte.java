@@ -26,5 +26,7 @@ public class StringAtributte extends Atributte<String> {
 	public boolean compareTo(String value) {
 		return getValue().equals(value);
 	}
+	
+	
 }
 

@@ -22,4 +22,9 @@ public class DoubleAtributte extends Atributte<Double>{
 		return Double.parseDouble(value); // 
 	}
 	
+	@Override
+	public boolean compareTo(String value) {
+		return getValue().equals(parseValue(value));
+	}
+	
 }
