@@ -1,8 +1,8 @@
 package ecommerce;
 
-public class DoubleAtributte extends Atributte<Double>{
+public class DoubleAttribute extends Attribute<Double>{
 	
-	public DoubleAtributte(String name, Double value) {
+	public DoubleAttribute(String name, Double value) {
 		this.value = value;
 		this.name = name;
 	}

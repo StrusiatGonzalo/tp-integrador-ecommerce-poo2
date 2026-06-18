@@ -1,8 +1,8 @@
 package ecommerce;
 
-public class BooleanAtributte extends Atributte<Boolean>{
+public class BooleanAttribute extends Attribute<Boolean>{
 	
-	public BooleanAtributte(String name, Boolean value) {
+	public BooleanAttribute(String name, Boolean value) {
 		this.value = value;
 		this.name = name;
 	}

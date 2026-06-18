@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
-class BundleTest extends AtributtesTest{
+class BundleTest extends AttributesTest{
 
 	
 	// Testeamos un bundle solo con productos

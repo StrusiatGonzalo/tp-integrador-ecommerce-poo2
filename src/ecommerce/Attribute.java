@@ -1,6 +1,6 @@
 package ecommerce;
 
-public abstract class Atributte<T> {
+public abstract class Attribute<T> {
 	protected String name;
 	protected T value;
 	

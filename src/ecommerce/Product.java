@@ -11,7 +11,7 @@ public class Product implements CatalogItem {
 	private String description;
 	private double price;
 	private double discountRate;
-	private List<Atributte<?>> extraAtributtes; 
+	private List<Attribute<?>> extraAttributes; 
 	
 	public Product(String sku,String name,String brand,String category,String description, double price) {
 		this.sku = sku;
@@ -21,7 +21,7 @@ public class Product implements CatalogItem {
 		this.description = description;
 		this.price = price;
 		this.discountRate = 0.0;
-		this.extraAtributtes = new ArrayList<>();
+		this.extraAttributes = new ArrayList<>();
 		
 		validate();
 	}
@@ -41,8 +41,8 @@ public class Product implements CatalogItem {
 		return description;
 	}
 	
-	public List<Atributte<?>> getExtraAtributtes(){
-		return extraAtributtes;
+	public List<Attribute<?>> getExtraAttributes(){
+		return extraAttributes;
 	}
 	
 	public String getSku() {
@@ -68,8 +68,8 @@ public class Product implements CatalogItem {
 		this.discountRate = discountRate;
 	}
 	
-	public void addExtraAtributte(Atributte<?> atributte) {
-		extraAtributtes.add(atributte);
+	public void addExtraAttribute(Attribute<?> attribute) {
+		extraAttributes.add(attribute);
 	}
 	
 	public void validate() { 
@@ -94,7 +94,7 @@ public class Product implements CatalogItem {
 	}
 	
 	private boolean isValidList() {
-		return extraAtributtes.stream()
+		return extraAttributes.stream()
 								.allMatch(a -> a.hasValue());
 	}
 }

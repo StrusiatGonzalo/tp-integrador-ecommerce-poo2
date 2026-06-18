@@ -1,8 +1,8 @@
 package ecommerce;
 
-public class StringAtributte extends Atributte<String> {
+public class StringAttribute extends Attribute<String> {
 	
-	public StringAtributte(String name, String value) {
+	public StringAttribute(String name, String value) {
 		this.value = value;
 		this.name = name;
 	}

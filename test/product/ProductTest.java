@@ -7,10 +7,10 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import ecommerce.Atributte;
-import ecommerce.DoubleAtributte;
-import ecommerce.StringAtributte;
-import ecommerce.BooleanAtributte;
+import ecommerce.Attribute;
+import ecommerce.DoubleAttribute;
+import ecommerce.StringAttribute;
+import ecommerce.BooleanAttribute;
 import ecommerce.Bundle;
 import ecommerce.Product;
 
@@ -27,10 +27,10 @@ class ProductTest {
 	Product cintaHipoalergenica;
 	Product productoInvalido;
 	
-	Atributte<Double> mililitros;
-	Atributte<String> indicacion;
-	Atributte<Boolean> ventaLibre;
-	Atributte<String> laboratorio; 
+	Attribute<Double> mililitros;
+	Attribute<String> indicacion;
+	Attribute<Boolean> ventaLibre;
+	Attribute<String> laboratorio; 
 	
 	Bundle botiquinPA;
 	Bundle botiquin;
@@ -48,10 +48,10 @@ class ProductTest {
 		cintaHipoalergenica = new Product("A03", "Cinta hipoalergenica", "Cintach", "Primeros auxilios", "Cinta hipoalergénica 25m", 6350.0);
 		
 		// Atributos
-		mililitros = new DoubleAtributte("Ml", 200.0);
-		indicacion = new StringAtributte("Indicacion", "Quemaduras");
-		ventaLibre = new BooleanAtributte("Venta libre", true);
-		laboratorio = new StringAtributte("Laboratorio", "");
+		mililitros = new DoubleAttribute("Ml", 200.0);
+		indicacion = new StringAttribute("Indicacion", "Quemaduras");
+		ventaLibre = new BooleanAttribute("Venta libre", true);
+		laboratorio = new StringAttribute("Laboratorio", "");
 		
 		// Bundles
 		botiquinPA = new Bundle("Botiquin PA","Botiquin primeros auxilios", 0.1);
@@ -82,11 +82,11 @@ class ProductTest {
 	}
 	
 	@Test // test agregar atributos dinámicos
-	void testAddExtraAtributtes() {
-		mertiolateC.addExtraAtributte(mililitros);
-		mertiolateC.addExtraAtributte(ventaLibre);
+	void testAddExtraAttributes() {
+		mertiolateC.addExtraAttribute(mililitros);
+		mertiolateC.addExtraAttribute(ventaLibre);
 		
-		List<Atributte<?>> atributos = mertiolateC.getExtraAtributtes();
+		List<Attribute<?>> atributos = mertiolateC.getExtraAttributes();
 		
 		assertTrue(atributos.contains(mililitros));
 		assertFalse(atributos.contains(indicacion));
@@ -95,7 +95,7 @@ class ProductTest {
 	
 	
 	@Test // test errores de atributos. Lanza el sku porque es el primero
-	void testValidateAtributtes() {
+	void testValidateAttributes() {
 	    Exception e = assertThrows(IllegalArgumentException.class, () ->
 	        new Product("", "Invalid", "Not Brand", "", "", 0.0)
 	    );
