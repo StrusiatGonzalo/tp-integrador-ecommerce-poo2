@@ -22,6 +22,8 @@ public class Product implements CatalogItem {
 		this.price = price;
 		this.discountRate = 0.0;
 		this.extraAtributtes = new ArrayList<>();
+		
+		validate();
 	}
 	
 	@Override
@@ -60,16 +62,54 @@ public class Product implements CatalogItem {
 	}
 	
 	public void setDiscountRate(double discountRate) {
-		
 		if(discountRate >= 1.0 || discountRate < 0) {
-			throw new IllegalArgumentException("Error: el descuento no puede superar el 100%");
+			throw new IllegalArgumentException("Error: El descuento no puede superar el 100%");
 		}
-		
 		this.discountRate = discountRate;
-	
 	}
-		
+	
 	public void addExtraAtributte(Atributte<?> atributte) {
 		extraAtributtes.add(atributte);
 	}
+	
+	public void validate() { 
+		if (sku == null || sku.isBlank()) {
+			throw new IllegalArgumentException("Error: El sku es invalido");
+		}
+		if (name == null || name.isBlank()) {
+			throw new IllegalArgumentException("Error: El nombre es invalido");			
+		}
+		if (brand == null || brand.isBlank()) {
+			throw new IllegalArgumentException("Error: La marca es invalida");
+		}
+		if (category == null || category.isBlank()) {
+			throw new IllegalArgumentException("Error: La categoria es invalida");
+		}
+		if (price < 0.0) {
+			throw new IllegalArgumentException("Error: El precio es invalido");
+		}
+		if (!isValidList()) {
+			throw new IllegalArgumentException("Error: El item tiene atributos invalidos");
+		}
+	}
+	
+	private boolean isValidList() {
+		return extraAtributtes.stream()
+								.allMatch(a -> a.hasValue());
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

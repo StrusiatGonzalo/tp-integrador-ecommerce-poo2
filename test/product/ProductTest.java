@@ -25,6 +25,7 @@ class ProductTest {
 	Product mertiolateS;
 	Product aguaOxigenada;
 	Product cintaHipoalergenica;
+	Product productoInvalido;
 	
 	Atributte<Double> mililitros;
 	Atributte<String> indicacion;
@@ -77,7 +78,7 @@ class ProductTest {
 	@Test // test - caso de descuentos
 	void testDiscountError() { //
 		Exception e = assertThrows(IllegalArgumentException.class, () -> alcohol.setDiscountRate(1.2));
-		assertEquals("Error: el descuento no puede superar el 100%", e.getMessage());
+		assertEquals("Error: El descuento no puede superar el 100%", e.getMessage());
 	}
 	
 	@Test // test agregar atributos dinámicos
@@ -90,6 +91,16 @@ class ProductTest {
 		assertTrue(atributos.contains(mililitros));
 		assertFalse(atributos.contains(indicacion));
 		assertTrue(atributos.contains(ventaLibre));	
+	}
+	
+	
+	@Test // test errores de atributos. Lanza el sku porque es el primero
+	void testValidateAtributtes() {
+	    Exception e = assertThrows(IllegalArgumentException.class, () ->
+	        new Product("", "Invalid", "Not Brand", "", "", 0.0)
+	    );
+
+	    assertEquals("Error: El sku es invalido", e.getMessage());
 	}
 	
 }
