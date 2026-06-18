@@ -18,9 +18,10 @@ public class Bundle implements CatalogItem{
 	
 	@Override
 	public double getBasePrice() {
-		return items.stream()
-				    .mapToDouble(i -> i.getBasePrice())
-				    .sum() * (1 - discountRate);
+		double res = items.stream()
+	    				.mapToDouble(i -> i.getBasePrice())
+	    				.sum();
+		return res * (1 - discountRate);
 	}
 
 	@Override
@@ -36,4 +37,5 @@ public class Bundle implements CatalogItem{
 	public void addItem(CatalogItem item) {
 		items.add(item);
 	}
+	
 }
