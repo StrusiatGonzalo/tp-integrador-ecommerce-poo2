@@ -12,9 +12,10 @@ public class Product implements CatalogItem {
 	private double weight;
 	private double price;
 	private double discountRate;
+	private int stock;
 	private List<Attribute<?>> extraAttributes; 
 	
-	public Product(String sku, String name, String brand, String category, String description, double weight, double price) {
+	public Product(String sku, String name, String brand, String category, String description, double weight, double price, int stock) {
 		this.sku = sku;
 		this.name = name;
 		this.brand = brand;
@@ -23,12 +24,13 @@ public class Product implements CatalogItem {
 		this.weight = weight;
 		this.price = price;
 		this.discountRate = 0.0;
+		this.stock = stock;
 		this.extraAttributes = new ArrayList<>();
 		
 		validate();
 	}
 	
-	public Product(String sku, String name, String brand, String category, String description, double weight, double price, List<Attribute<?>> attributes) {
+	public Product(String sku, String name, String brand, String category, String description, double weight, double price, int stock, List<Attribute<?>> attributes) {
 		this.sku = sku;
 		this.name = name;
 		this.brand = brand;
@@ -37,6 +39,7 @@ public class Product implements CatalogItem {
 		this.weight = weight;
 		this.price = price;
 		this.discountRate = 0.0;
+		this.stock = stock;
 		this.extraAttributes = attributes;
 		
 		validate();
@@ -106,6 +109,9 @@ public class Product implements CatalogItem {
 		}
 		if (weight < 0.0) {
 			throw new IllegalArgumentException("Error: El peso es invalido");
+		}
+		if (stock < 0) {
+			throw new IllegalArgumentException("Error: El stock inicial es invalido");
 		}
 	}
 }
