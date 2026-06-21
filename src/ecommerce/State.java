@@ -4,19 +4,15 @@ public abstract class State {
 	
 	private String name;
 	
-	public State(String name) {
-		this.name = name;
-	}
-	
 	public String getName() {
 		return name;
 	}
 	
-	public void addItem(Order order, CatalogItem item) { // Agregar
+	public void addItem(Order order, OrderItem item) { // Agregar
 		throw new IllegalStateException("Error: No se pueden agregar items en el estado: " + getName());
 	}
 	
-	public void deleteItem(Order order, CatalogItem item) { // Quitar
+	public void deleteItem(Order order, OrderItem item) { // Quitar
 		throw new IllegalStateException("Error: No se pueden quitar items en el estado: " + getName()); 
 	}
 	

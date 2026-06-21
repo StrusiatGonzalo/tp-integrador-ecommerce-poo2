@@ -40,6 +40,7 @@ class ProductTest {
 	void setUp() {
 		
 		// Productos
+		
 		ibuprofeno = new Product("P01", "Ibuprofeno 600", "Ibupirac", "Pastillas", "Ibuprofeno 600mg blister x10", 200.0, 2000.0, 10);
 		ponstil = new Product("P02", "Postil 500", "Posti", "Pastillas", "Ponstil 500mg blister x20", 100.0, 10000.0, 10);
 		gaza = new Product("A01", "Gaza", "Castrol", "Apositos", "Gaza caja 10u", 300.0, 5000.0, 5);

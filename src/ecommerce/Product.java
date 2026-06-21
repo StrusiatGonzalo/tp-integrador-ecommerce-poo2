@@ -114,6 +114,25 @@ public class Product implements CatalogItem {
 			throw new IllegalArgumentException("Error: El stock inicial es invalido");
 		}
 	}
+	
+	public int getStock() {
+		return stock;
+	}
+
+	@Override
+	public void decreaseStock(int quantity) {
+		if (quantity > stock) {
+			throw new IllegalArgumentException("Error: El stock no es suficiente para: " + sku);
+		}
+		
+		stock -= quantity;
+	}
+
+	@Override
+	public void increaseStock(int quantity) {
+	
+		stock += quantity;
+	}
 }
 
 

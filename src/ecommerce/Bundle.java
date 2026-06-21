@@ -37,5 +37,14 @@ public class Bundle implements CatalogItem{
 	public void addItem(CatalogItem item) {
 		items.add(item);
 	}
-	
+
+	@Override
+	public void decreaseStock(int quantity) {
+		items.forEach(i -> i.decreaseStock(quantity));	
+	}
+
+	@Override
+	public void increaseStock(int quantity) {
+		items.forEach(i -> i.increaseStock(quantity));
+	}	
 }

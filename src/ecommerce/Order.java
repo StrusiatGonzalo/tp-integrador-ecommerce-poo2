@@ -4,29 +4,45 @@ import java.util.List;
 
 public class Order {
 	private State state;
-	private List<CatalogItem> items;
+	private List<OrderItem> items;
+	private double shippingCost; 
+	private List<CreditNote> creditNotes;
 	
-	public void add(CatalogItem item) {
+	public void add(OrderItem item) {
 		state.addItem(this, item);
 	}
 	
-	public void delete(CatalogItem item) {
+	public void delete(OrderItem item) {
 		state.deleteItem(this, item);
 	}
 	
-	public void setState(State state) {
-		
+	public void setState(State newState) {
+		state = newState;
 	}
 	
-	public List<CatalogItem> getItems(){
+	public List<OrderItem> getItems(){
 		return items;
 	}
 	
-	public State getState() {
-		return null;
+	public void confirm() {
+		state.confirm(this);
 	}
 	
-	public void request() {
-		
+	public void registerCreditNote(CreditNote note) {
+		creditNotes.add(note);
+	}
+	
+	public List<CreditNote> getCreditNote() {
+		return creditNotes;
+	}
+	
+	public double totalCost() {
+		return items.stream()
+				    .mapToDouble(i -> i.getItem().getBasePrice())
+				    .sum();			    
+	}
+	
+	public double getShippingCost() {
+		return shippingCost;
 	}
 }
