@@ -9,19 +9,35 @@ public class Product implements CatalogItem {
 	private String brand;
 	private String category;
 	private String description;
+	private double weight;
 	private double price;
 	private double discountRate;
 	private List<Attribute<?>> extraAttributes; 
 	
-	public Product(String sku,String name,String brand,String category,String description, double price) {
+	public Product(String sku, String name, String brand, String category, String description, double weight, double price) {
 		this.sku = sku;
 		this.name = name;
 		this.brand = brand;
 		this.category = category;
 		this.description = description;
+		this.weight = weight;
 		this.price = price;
 		this.discountRate = 0.0;
 		this.extraAttributes = new ArrayList<>();
+		
+		validate();
+	}
+	
+	public Product(String sku, String name, String brand, String category, String description, double weight, double price, List<Attribute<?>> attributes) {
+		this.sku = sku;
+		this.name = name;
+		this.brand = brand;
+		this.category = category;
+		this.description = description;
+		this.weight = weight;
+		this.price = price;
+		this.discountRate = 0.0;
+		this.extraAttributes = attributes;
 		
 		validate();
 	}
@@ -88,14 +104,9 @@ public class Product implements CatalogItem {
 		if (price < 0.0) {
 			throw new IllegalArgumentException("Error: El precio es invalido");
 		}
-		if (!isValidList()) {
-			throw new IllegalArgumentException("Error: El item tiene atributos invalidos");
+		if (weight < 0.0) {
+			throw new IllegalArgumentException("Error: El peso es invalido");
 		}
-	}
-	
-	private boolean isValidList() {
-		return extraAttributes.stream()
-								.allMatch(a -> a.hasValue());
 	}
 }
 

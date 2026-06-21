@@ -4,6 +4,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
+import ecommerce.Attribute;
+import ecommerce.Product;
+
 class AttributesTest extends ProductTest{
 
 	//setUp de ProductTest
@@ -22,38 +25,21 @@ class AttributesTest extends ProductTest{
 		assertEquals("Indicacion", indicacion.getName());
 	}
 	
-	@Test // hasValue de todos los atributos dinámicos
-	void testExtraAttributesHasValues() {
-		assertTrue(mililitros.hasValue());
-		assertTrue(ventaLibre.hasValue());
-		assertTrue(indicacion.hasValue());
-	}
-	
-	@Test // string vacío en StringAtributte - validación
-	void testStringAttributeEmpty() { // es false porque el valor es un string vacío
-		// Atributte<String> laboratorio = new StringAtributte("Laboratorio", "");
-		assertFalse(laboratorio.hasValue());
+	@Test
+	void testValidateAttributesExtraName() {
+		Exception e = assertThrows(IllegalArgumentException.class, () ->
+        new Attribute<Double>("",0.0));
+		
+		assertEquals("Error: El nombre del atributo es invalido", e.getMessage());
 	}
 	
 	@Test
-	void testShowValue() { //muestra los valores como string
-		assertEquals("true", ventaLibre.showValue());
-		assertEquals("", laboratorio.showValue()); //no tiene un valor
-		assertEquals("Quemaduras", indicacion.showValue());
-		assertEquals("200.0", mililitros.showValue());
-	}
-	
-	@Test //test el parseo valor de los atributos dinamicos y el metodo compareTo
-	void testParseValue() {
-		assertTrue(mililitros.compareTo("200.0"));
-		assertTrue(ventaLibre.compareTo("true"));
-		assertTrue(indicacion.compareTo("Quemaduras"));
-		assertFalse(laboratorio.compareTo("Bago"));
-		assertFalse(mililitros.compareTo("201.0"));
-		assertFalse(ventaLibre.compareTo("asd"));
+	void testValidateAttributesExtraValue() {
+		Exception e = assertThrows(IllegalArgumentException.class, () ->
+        new Attribute<Double>("Test",null));
 		
+		assertEquals("Error: El valor del atributo es invalido", e.getMessage());
 	}
-	
-	//filtro inicial con atributos estaticos: producto
+	// filtro inicial con atributos estaticos: producto
 	// filtro con atributos dinamicos: productos**
 }

@@ -2,15 +2,13 @@ package product;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import ecommerce.Attribute;
-import ecommerce.DoubleAttribute;
-import ecommerce.StringAttribute;
-import ecommerce.BooleanAttribute;
 import ecommerce.Bundle;
 import ecommerce.Product;
 
@@ -26,6 +24,7 @@ class ProductTest {
 	Product aguaOxigenada;
 	Product cintaHipoalergenica;
 	Product productoInvalido;
+	Product sertal;
 	
 	Attribute<Double> mililitros;
 	Attribute<String> indicacion;
@@ -35,27 +34,36 @@ class ProductTest {
 	Bundle botiquinPA;
 	Bundle botiquin;
 	
+	List<Attribute<?>> attributes;
+	
 	@BeforeEach
 	void setUp() {
+		
 		// Productos
-		ibuprofeno = new Product("P01", "Ibuprofeno 600", "Ibupirac", "Pastillas", "Ibuprofeno 600mg blister x10", 2000.0);
-		ponstil = new Product("P02", "Postil 500", "Posti", "Pastillas", "Ponstil 500mg blister x20", 10000.0);
-		gaza = new Product("A01", "Gaza", "Castrol", "Apositos", "Gaza caja 10u", 5000.0);
-		curitas = new Product("A02", "Curitas", "IVC", "Apositos", "Curitas 20u", 1500.0);
-		alcohol = new Product("B01", "Alcohol", "ACME", "Botellas", "Alcohol 70% botella", 2000.0);
-		mertiolateC = new Product("C01", "Mertiolate crema", "ACME", "Crema", "Crema Mertiolate", 5000.0);
-		mertiolateS = new Product("B03", "Mertiolate spray", "ACME", "Spray", "Mertiolate en spray", 3000.0);
-		cintaHipoalergenica = new Product("A03", "Cinta hipoalergenica", "Cintach", "Primeros auxilios", "Cinta hipoalergénica 25m", 6350.0);
+		ibuprofeno = new Product("P01", "Ibuprofeno 600", "Ibupirac", "Pastillas", "Ibuprofeno 600mg blister x10", 200.0, 2000.0);
+		ponstil = new Product("P02", "Postil 500", "Posti", "Pastillas", "Ponstil 500mg blister x20", 100.0, 10000.0);
+		gaza = new Product("A01", "Gaza", "Castrol", "Apositos", "Gaza caja 10u", 300.0, 5000.0);
+		curitas = new Product("A02", "Curitas", "IVC", "Apositos", "Curitas 20u", 80.0, 1500.0);
+		alcohol = new Product("B01", "Alcohol", "ACME", "Botellas", "Alcohol 70% botella", 500.0, 2000.0);
+		mertiolateC = new Product("C01", "Mertiolate crema", "ACME", "Crema", "Crema Mertiolate", 200.0, 5000.0);
+		mertiolateS = new Product("B03", "Mertiolate spray", "ACME", "Spray", "Mertiolate en spray", 400.0, 3000.0);
+		cintaHipoalergenica = new Product("A03", "Cinta hipoalergenica", "Cintach", "Primeros auxilios", "Cinta hipoalergénica 25m", 25.0, 6350.0);
+		sertal = new Product("P03", "Sertal Perlas", "Sertalito", "Pastillas", "Sertal 50mg blister x10", 30.0, 2000.0, attributes);
 		
 		// Atributos
-		mililitros = new DoubleAttribute("Ml", 200.0);
-		indicacion = new StringAttribute("Indicacion", "Quemaduras");
-		ventaLibre = new BooleanAttribute("Venta libre", true);
-		laboratorio = new StringAttribute("Laboratorio", "");
+		mililitros = new Attribute<Double>("Ml", 200.0);
+		indicacion = new Attribute<String>("Indicacion", "Quemaduras");
+		ventaLibre = new Attribute<Boolean>("Venta libre", true);
 		
 		// Bundles
 		botiquinPA = new Bundle("Botiquin PA","Botiquin primeros auxilios", 0.1);
 		botiquin = new Bundle("Botiquin Completo","Botiquin Completo", 0.15);
+
+		// Listas de Atributos
+		attributes = new ArrayList<>();
+		attributes.add(ventaLibre);
+		attributes.add(indicacion);
+
 	}
 	
 	@Test // test inicial - getters
@@ -95,12 +103,55 @@ class ProductTest {
 	
 	
 	@Test // test errores de atributos. Lanza el sku porque es el primero
-	void testValidateAttributes() {
+	void testValidateAttributesSKU() {
 	    Exception e = assertThrows(IllegalArgumentException.class, () ->
-	        new Product("", "Invalid", "Not Brand", "", "", 0.0)
+	        new Product("", "Invalid", "Not Brand", "", "",10.0, 0.0)
 	    );
 
 	    assertEquals("Error: El sku es invalido", e.getMessage());
 	}
 	
+	@Test 
+	void testValidateAttributesName() {
+	    Exception e = assertThrows(IllegalArgumentException.class, () ->
+	        new Product("1", "", "Not Brand", "", "",10.0, 0.0)
+	    );
+
+	    assertEquals("Error: El nombre es invalido", e.getMessage());
+	}
+	
+	@Test 
+	void testValidateAttributesBrand() {
+	    Exception e = assertThrows(IllegalArgumentException.class, () ->
+	        new Product("1", "Invalid", null, "", "",10.0, 0.0)
+	    );
+
+	    assertEquals("Error: La marca es invalida", e.getMessage());
+	}
+	
+	@Test
+	void testValidateAttributesCategory() {
+	    Exception e = assertThrows(IllegalArgumentException.class, () ->
+	        new Product("1", "Invalid", "Not Brand", "", "",10.0, 0.0)
+	    );
+
+	    assertEquals("Error: La categoria es invalida", e.getMessage());
+	}
+	
+	@Test
+	void testValidateAttributesPrice() {
+	    Exception e = assertThrows(IllegalArgumentException.class, () ->
+	        new Product("1", "Invalid", "Not Brand", "null category", "",10.0, -10.0)
+	    );
+
+	    assertEquals("Error: El precio es invalido", e.getMessage());
+	}
+	@Test
+	void testValidateAttributesWeight() {
+	    Exception e = assertThrows(IllegalArgumentException.class, () ->
+	        new Product("1", "Invalid", "Not Brand", "null category", "",-10.0, 10.0)
+	    );
+
+	    assertEquals("Error: El peso es invalido", e.getMessage());
+	}
 }
