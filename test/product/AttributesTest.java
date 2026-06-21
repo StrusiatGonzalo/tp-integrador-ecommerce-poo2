@@ -4,8 +4,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
-import ecommerce.Attribute;
-import ecommerce.Product;
+import ecommerce.catalog.Attribute;
+import ecommerce.catalog.Product;
 
 class AttributesTest extends ProductTest{
 

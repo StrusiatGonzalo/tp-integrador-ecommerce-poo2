@@ -1,16 +1,19 @@
-package ecommerce;
+package ecommerce.catalog;
 
-public class Attribute<T> {
+// atributos dinámicos
+public class Attribute<T> { 
 	protected String name;
 	protected T value;
 	
+	// CONSTRUCTOR
 	public Attribute(String nameAttribute, T value){
 		this.name = nameAttribute;
 		this.value = value;
 		
-		validateAttribute();
+		validate();
 	}
 	
+	// GETTERS
 	public String getName() {
 		return name;
 	}
@@ -18,12 +21,15 @@ public class Attribute<T> {
 	public T getValue() {
 		return value;
 	}
-		
-	private void validateAttribute() {
+	
+	// HELPERS
+	// método que valida que los atributos estén asignados correctamente
+	private void validate() {
 		if (name == null || name.isBlank()) {
 			throw new IllegalArgumentException("Error: El nombre del atributo es invalido");
 		}
-		if (value == null || value.toString().isBlank()) {
+		// toString porque el valor es de tipo T, puede ser cualquier tipo y si es un string, hay que controlar que no sea blank porque no sería válido
+		if (value == null || value.toString().isBlank()) {  
 			throw new IllegalArgumentException("Error: El valor del atributo es invalido");
 		}
 	}

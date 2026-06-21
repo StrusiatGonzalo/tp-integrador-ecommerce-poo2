@@ -1,4 +1,4 @@
-package ecommerce;
+package ecommerce.catalog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,13 +9,14 @@ public class Product implements CatalogItem {
 	private String brand;
 	private String category;
 	private String description;
-	private double weight;
+	private float weight;
 	private double price;
 	private double discountRate;
 	private int stock;
-	private List<Attribute<?>> extraAttributes; 
+	private List<Attribute<?>> extraAttributes; // atributos dinámicos que no son de la clase
 	
-	public Product(String sku, String name, String brand, String category, String description, double weight, double price, int stock) {
+	// CONSTRUCTOR (sin lista de atributos dinámicos)
+	public Product(String sku, String name, String brand, String category, String description, float weight, double price, int stock) {
 		this.sku = sku;
 		this.name = name;
 		this.brand = brand;
@@ -27,10 +28,11 @@ public class Product implements CatalogItem {
 		this.stock = stock;
 		this.extraAttributes = new ArrayList<>();
 		
-		validate();
+		validate(); // validar que lo atributos sean válidos (esten asignados)
 	}
 	
-	public Product(String sku, String name, String brand, String category, String description, double weight, double price, int stock, List<Attribute<?>> attributes) {
+	// CONSTRUCTOR (con lista de atributos dinámicos instanciada)
+	public Product(String sku, String name, String brand, String category, String description, float weight, double price, int stock, List<Attribute<?>> attributes) {
 		this.sku = sku;
 		this.name = name;
 		this.brand = brand;
@@ -42,9 +44,10 @@ public class Product implements CatalogItem {
 		this.stock = stock;
 		this.extraAttributes = attributes;
 		
-		validate();
+		validate(); // validar que lo atributos sean válidos (esten asignados)
 	}
 	
+	// GETTERS 
 	@Override
 	public String getName() {
 		return name;
@@ -80,6 +83,16 @@ public class Product implements CatalogItem {
 		return discountRate;
 	}
 	
+	public int getStock() {
+		return stock;
+	}
+	
+	@Override
+	public float getWeight() {
+		return weight;
+	}
+	
+	// SETTERS
 	public void setDiscountRate(double discountRate) {
 		if(discountRate >= 1.0 || discountRate < 0) {
 			throw new IllegalArgumentException("Error: El descuento no puede superar el 100%");
@@ -87,11 +100,15 @@ public class Product implements CatalogItem {
 		this.discountRate = discountRate;
 	}
 	
+	
+	// HELPERS
+	// método que agrega un atributo dinámico a la clase
 	public void addExtraAttribute(Attribute<?> attribute) {
 		extraAttributes.add(attribute);
 	}
 	
-	public void validate() { 
+	// valida que todos los atributos estén correctamente asignados
+	private void validate() { 
 		if (sku == null || sku.isBlank()) {
 			throw new IllegalArgumentException("Error: El sku es invalido");
 		}
@@ -115,23 +132,26 @@ public class Product implements CatalogItem {
 		}
 	}
 	
-	public int getStock() {
-		return stock;
-	}
-
+	// método que decrementa el stock
+	// verifica si hay stock disponible para decrementar si no, tira un error
 	@Override
 	public void decreaseStock(int quantity) {
-		if (quantity > stock) {
+		if (!hasStock(quantity)) { 
 			throw new IllegalArgumentException("Error: El stock no es suficiente para: " + sku);
 		}
-		
 		stock -= quantity;
 	}
-
+	
+	// método que incrementa el stock del producto
 	@Override
 	public void increaseStock(int quantity) {
-	
 		stock += quantity;
+	}
+	
+	// metodo que dada una cantidad, indica si hay stock disponible
+	@Override
+	public boolean hasStock(int quantity) {
+		return quantity >= stock;
 	}
 }
 

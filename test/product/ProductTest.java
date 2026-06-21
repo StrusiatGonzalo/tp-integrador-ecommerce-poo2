@@ -8,9 +8,9 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import ecommerce.Attribute;
-import ecommerce.Bundle;
-import ecommerce.Product;
+import ecommerce.catalog.Attribute;
+import ecommerce.catalog.Bundle;
+import ecommerce.catalog.Product;
 
 class ProductTest {
 	
@@ -40,7 +40,6 @@ class ProductTest {
 	void setUp() {
 		
 		// Productos
-		
 		ibuprofeno = new Product("P01", "Ibuprofeno 600", "Ibupirac", "Pastillas", "Ibuprofeno 600mg blister x10", 200.0, 2000.0, 10);
 		ponstil = new Product("P02", "Postil 500", "Posti", "Pastillas", "Ponstil 500mg blister x20", 100.0, 10000.0, 10);
 		gaza = new Product("A01", "Gaza", "Castrol", "Apositos", "Gaza caja 10u", 300.0, 5000.0, 5);
@@ -49,7 +48,6 @@ class ProductTest {
 		mertiolateC = new Product("C01", "Mertiolate crema", "ACME", "Crema", "Crema Mertiolate", 200.0, 5000.0, 8);
 		mertiolateS = new Product("B03", "Mertiolate spray", "ACME", "Spray", "Mertiolate en spray", 400.0, 3000.0, 20);
 		cintaHipoalergenica = new Product("A03", "Cinta hipoalergenica", "Cintach", "Primeros auxilios", "Cinta hipoalergénica 25m", 25.0, 6350.0, 10);
-		sertal = new Product("P03", "Sertal Perlas", "Sertalito", "Pastillas", "Sertal 50mg blister x10", 30.0, 2000.0, 15, attributes);
 		
 		// Atributos
 		mililitros = new Attribute<Double>("Ml", 200.0);
@@ -64,7 +62,9 @@ class ProductTest {
 		attributes = new ArrayList<>();
 		attributes.add(ventaLibre);
 		attributes.add(indicacion);
-
+		
+		// Producto con lista de atributos dinamicos
+		sertal = new Product("P03", "Sertal Perlas", "Sertalito", "Pastillas", "Sertal 50mg blister x10", 30.0, 2000.0, 15, attributes);
 	}
 	
 	@Test // test inicial - getters
