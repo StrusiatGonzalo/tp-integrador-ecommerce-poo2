@@ -10,6 +10,6 @@ public interface CatalogItem {
 	void increaseStock(int quantity); //incrementarStock
 	boolean hasStock(int quantity); // tiene o no stock disponible
 	int getStock();
-	float getWeight();
+	double getWeight();
 	
 }

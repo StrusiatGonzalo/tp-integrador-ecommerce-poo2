@@ -9,14 +9,14 @@ public class Product implements CatalogItem {
 	private String brand;
 	private String category;
 	private String description;
-	private float weight;
+	private double weight;
 	private double price;
 	private double discountRate;
 	private int stock;
 	private List<Attribute<?>> extraAttributes; // atributos dinámicos que no son de la clase
 	
 	// CONSTRUCTOR (sin lista de atributos dinámicos)
-	public Product(String sku, String name, String brand, String category, String description, float weight, double price, int stock) {
+	public Product(String sku, String name, String brand, String category, String description, double weight, double price, int stock) {
 		this.sku = sku;
 		this.name = name;
 		this.brand = brand;
@@ -32,7 +32,7 @@ public class Product implements CatalogItem {
 	}
 	
 	// CONSTRUCTOR (con lista de atributos dinámicos instanciada)
-	public Product(String sku, String name, String brand, String category, String description, float weight, double price, int stock, List<Attribute<?>> attributes) {
+	public Product(String sku, String name, String brand, String category, String description, double weight, double price, int stock, List<Attribute<?>> attributes) {
 		this.sku = sku;
 		this.name = name;
 		this.brand = brand;
@@ -88,7 +88,7 @@ public class Product implements CatalogItem {
 	}
 	
 	@Override
-	public float getWeight() {
+	public double getWeight() {
 		return weight;
 	}
 	
@@ -151,7 +151,7 @@ public class Product implements CatalogItem {
 	// metodo que dada una cantidad, indica si hay stock disponible
 	@Override
 	public boolean hasStock(int quantity) {
-		return quantity >= stock;
+		return quantity <= stock;
 	}
 }
 

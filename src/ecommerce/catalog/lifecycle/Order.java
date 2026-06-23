@@ -3,6 +3,7 @@ package ecommerce.catalog.lifecycle;
 import java.util.ArrayList;
 import java.util.List;
 
+import ecommerce.catalog.CatalogItem;
 import ecommerce.catalog.lifecycle.shippingmethods.ShippingType;
 
 // Pedido
@@ -33,9 +34,13 @@ public class Order {
 		return creditNotes;
 	}
 	
+	public String getAddress() {
+		return address;
+	}
+	
 	// método que describe el costo total del envío según el método de envío
 	public double getShippingCost() {
-		return shippingType.cost(totalWeight(), address);
+		return shippingType.cost(this);
 	}
 	
 	// SETTERS
@@ -45,8 +50,13 @@ public class Order {
 	
 	// HELPERS
 	// método que agrega un item al pedido
-	public void add(OrderItem item) {
-		state.addItem(this, item);
+	public void add(CatalogItem item, int quantity) {
+		state.addItem(this, item, quantity);
+	}
+	
+	// metodo que agrega un nuevo item del pedido al pedido
+	public void addNewItem(OrderItem oi) {
+		items.add(oi);
 	}
 	
 	// método que quita un item del pedido
@@ -67,15 +77,15 @@ public class Order {
 	// método que describe el costo total del pedido
 	public double totalCost() {
 		return items.stream()
-				    .mapToDouble(i -> i.getItem().getBasePrice())
+				    .mapToDouble(i -> i.getItem().getBasePrice() * i.getQuantity())
 				    .sum();			    
 	}
 	
 	// método que describe el peso total del pedido
-	public float totalWeight() {
+	public double totalWeight() {
 		return items.stream()
-				.map(i -> i.getItem().getWeight())
-				.reduce(0f, Float::sum);
+				.mapToDouble(i -> i.getItem().getWeight() * i.getQuantity())
+				.sum();
 	}
 	
 	// método que indica si hay stock disponible de cada item del pedido

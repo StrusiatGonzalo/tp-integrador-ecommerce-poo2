@@ -1,12 +1,14 @@
 package ecommerce.catalog.lifecycle;
 
+import ecommerce.catalog.CatalogItem;
+
 // Ciclo de vida del pedido
 public abstract class State {
 	
 	public abstract String getName(); // lo reescribe cada state
 	
 	// Cada estado sobreescribe las operaciones válidas, por defecto todas lanzan un errror personalizado
-	public void addItem(Order order, OrderItem item) { // Agregar
+	public void addItem(Order order, CatalogItem item, int quantity) { // Agregar
 		throw new IllegalStateException("Error: No se pueden agregar items en el estado: " + getName());
 	}
 	

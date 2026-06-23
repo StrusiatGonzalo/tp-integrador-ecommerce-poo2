@@ -1,5 +1,7 @@
 package ecommerce.catalog.lifecycle;
 
+import ecommerce.catalog.CatalogItem;
+
 // BORRADOR
 public class Draft extends State { 
 	
@@ -14,8 +16,8 @@ public class Draft extends State {
 	// Operaciones válidas para el estado BORRADOR
 	// método para agregar un item al pedido
 	@Override
-	public void addItem(Order order, OrderItem item) {
-		order.getItems().add(item); 
+	public void addItem(Order order, CatalogItem item, int quantity) {
+		order.addNewItem(new OrderItem(item, quantity));
 	}
 	
 	// método para borrar un item del pedido, si el item no existe en el pedido se lanza un error 

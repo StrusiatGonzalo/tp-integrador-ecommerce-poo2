@@ -4,6 +4,6 @@ import ecommerce.catalog.lifecycle.Order;
 
 // TIPO DE ENVÍO
 public interface ShippingType {
-	public float cost(float criteria, String address);
+	public double cost(Order order);
 	public String waitingDays(Order order);
 }

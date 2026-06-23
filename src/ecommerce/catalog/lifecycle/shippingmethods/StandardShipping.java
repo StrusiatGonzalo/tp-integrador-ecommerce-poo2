@@ -6,8 +6,8 @@ import ecommerce.catalog.lifecycle.Order;
 public class StandardShipping implements ShippingType {
 	
 	@Override
-	public float cost(float totalWeight, String address) {
-		return CorreoArgentinoMock.estimarEnvio(totalWeight, address); // de librería, retorna el precio
+	public double cost(Order order) {
+		return CorreoArgentinoMock.estimarEnvio(order.totalWeight(), order.getAddress());// de librería, retorna el precio
 	}
 
 	@Override

@@ -6,8 +6,8 @@ import ecommerce.catalog.lifecycle.Order;
 public class LocalPickUp implements ShippingType{ // retirar en sucursal
 	
 	@Override
-	public float cost(float totalWeight, String address) { // método polimorfico, no usa los parámetros
-		return 0f; // siempre de costo 0
+	public double cost(Order order) { // método polimorfico, no usa los parámetros
+		return 0.0; // siempre de costo 0
 	}
 	
 	@Override

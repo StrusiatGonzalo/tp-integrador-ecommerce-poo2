@@ -15,6 +15,8 @@ public class Bundle implements CatalogItem{ // paquete
 		this.description = description;
 		this.discountRate = discountRate;
 		this.items = new ArrayList<>();
+		
+		validate();
 	}
 	
 	// GETTERS
@@ -29,10 +31,14 @@ public class Bundle implements CatalogItem{ // paquete
 	}
 	
 	@Override
-	public float getWeight() {
+	public double getWeight() {
 		return items.stream()
-				.map(i -> i.getWeight())
-				.reduce(0f, Float::sum);
+				.mapToDouble(i -> i.getWeight())
+				.sum();
+	}
+	
+	public double getDiscountRate() {
+		return discountRate;
 	}
 
 	@Override
@@ -73,7 +79,20 @@ public class Bundle implements CatalogItem{ // paquete
 	// método que dada una cantidad de productos indica si hay stock disponible del mismo
 	@Override
 	public boolean hasStock(int quantity) {
-		return  getStock() >= quantity;
+		return  items.stream()
+				     .allMatch(i -> i.hasStock(quantity));
+	}
+	
+	private void validate() {
+		if (getName().isBlank()) {
+			throw new IllegalArgumentException("Error: El nombre del paquete es invalido");
+		}	
+		if (getDescription().isBlank()) {
+			throw new IllegalArgumentException("Error: La descripcion del paquete es invalido");
+		}		
+		if (getDiscountRate() < 0) {
+			throw new IllegalArgumentException("Error: El descuento del paquete es invalido");
+		}
 	}
 	
 }
