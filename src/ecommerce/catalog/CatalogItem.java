@@ -1,5 +1,7 @@
 package ecommerce.catalog;
 
+import java.util.Map;
+
 //interfaz implementada por Product y Bundle
 public interface CatalogItem { 
 		
@@ -11,5 +13,6 @@ public interface CatalogItem {
 	boolean hasStock(int quantity); // tiene o no stock disponible
 	int getStock();
 	double getWeight();
-	
+	void accumulateProductDemand(int multiplier, Map<String, Integer> demandBySku);
+	boolean hasEnoughStockFor(Map<String, Integer> demandBySku);
 }

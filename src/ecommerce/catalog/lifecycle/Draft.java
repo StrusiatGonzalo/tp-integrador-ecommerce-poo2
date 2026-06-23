@@ -33,7 +33,8 @@ public class Draft extends State {
 	// decrementa el stock de cada producto y cambia el estado a CONFIRMADO
 	@Override
 	public void confirm(Order order) {
-		order.getItems().forEach(i -> i.getItem().decreaseStock(i.getQuantity()));
+		// order.
+		//order.getItems().forEach(i -> i.getItem().decreaseStock(i.getQuantity()));
 		order.setState(new Confirmed());
 	}
 	

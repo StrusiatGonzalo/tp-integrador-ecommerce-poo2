@@ -2,6 +2,7 @@ package ecommerce.catalog;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class Bundle implements CatalogItem{ // paquete
 	private String name;
@@ -95,4 +96,13 @@ public class Bundle implements CatalogItem{ // paquete
 		}
 	}
 	
+	@Override
+	public void accumulateProductDemand(int quantity, Map<String, Integer> demandBySku) {
+	    items.forEach(i -> i.accumulateProductDemand(quantity, demandBySku));
+	}
+
+	@Override
+	public boolean hasEnoughStockFor(Map<String, Integer> demandBySku) {
+	    return items.stream().allMatch(i -> i.hasEnoughStockFor(demandBySku));
+	}
 }

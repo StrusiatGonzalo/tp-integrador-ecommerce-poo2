@@ -1,7 +1,9 @@
 package ecommerce.catalog.lifecycle;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import ecommerce.catalog.CatalogItem;
 import ecommerce.catalog.lifecycle.shippingmethods.ShippingType;
@@ -89,9 +91,9 @@ public class Order {
 	}
 	
 	// método que indica si hay stock disponible de cada item del pedido
-	public boolean isEverythingInStock() { // de todos los productos que estan en la orden hay stock?
-		return items.stream()
-					.allMatch(i -> i.getItem().hasStock(i.getQuantity()));
+	public boolean isEverythingInStock() {
+	    Map<String, Integer> demand = totalDemandPerSku();
+	    return items.stream().allMatch(i -> i.getItem().hasEnoughStockFor(demand));
 	}
 	
 	// método privado que valida que los atributos esten instanciados correctamente (no null, no "")
@@ -102,6 +104,12 @@ public class Order {
 		if (shippingType == null) {
 			throw new IllegalArgumentException("Error: El tipo de envío no es válido");
 		}
+	}
+	
+	private Map<String, Integer> totalDemandPerSku() {
+	    Map<String, Integer> res = new HashMap<>();
+	    items.forEach(i -> i.getItem().accumulateProductDemand(i.getQuantity(), res));
+	    return res;
 	}
 }
 

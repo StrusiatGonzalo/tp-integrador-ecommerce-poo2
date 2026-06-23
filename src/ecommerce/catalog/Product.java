@@ -2,6 +2,7 @@ package ecommerce.catalog;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class Product implements CatalogItem {
 	private String sku;
@@ -152,6 +153,21 @@ public class Product implements CatalogItem {
 	@Override
 	public boolean hasStock(int quantity) {
 		return quantity <= stock;
+	}
+	
+	@Override
+	public void accumulateProductDemand(int quantity, Map<String, Integer> demandBySku) {
+	    if (demandBySku.containsKey(getSku())) { // si el map que me pasan por parametro me tiene a mi como clave entonces . .
+	        int actualValue = demandBySku.get(getSku()); //  me traigo el valor osea la cantidad
+	        demandBySku.put(getSku(), actualValue + quantity); // aca sumo los valores 
+	    } else {
+	        demandBySku.put(getSku(), quantity); // sino simplemente no suma y queda el valor existente 
+	    }
+	}
+
+	@Override
+	public boolean hasEnoughStockFor(Map<String, Integer> demandBySku) {
+	    return hasStock(demandBySku.get(this.sku));
 	}
 }
 
