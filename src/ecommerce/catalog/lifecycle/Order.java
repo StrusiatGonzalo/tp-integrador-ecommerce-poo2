@@ -7,6 +7,7 @@ import java.util.Map;
 
 import ecommerce.catalog.CatalogItem;
 import ecommerce.catalog.lifecycle.shippingmethods.ShippingType;
+import ecommerce.catalog.lifecycle.shippingmethods.payment.PaymentMethod;
 
 // Pedido
 public class Order { 
@@ -15,14 +16,16 @@ public class Order {
 	private List<CreditNote> creditNotes; // puede tener notas por el reembolso del costo total de los productos y/o reembolso por el envío
 	private ShippingType shippingType; // tipo de envío
 	private String address; // direccion de envío
+	private PaymentMethod paymentMethod; // metodo de pago
 	
 	// CONSTRUCTOR
-	public Order(String address, ShippingType shippingType) {
+	public Order(String address, ShippingType shippingType, PaymentMethod paymentMethod) {
 		this.state = new Draft();
 		this.items = new ArrayList<>();
 		this.creditNotes = new ArrayList<>();
 		this.address = address;
 		this.shippingType = shippingType;
+		this.paymentMethod = paymentMethod;
 		
 		validate();
 	}
@@ -30,6 +33,10 @@ public class Order {
 	// GETTERS
 	public List<OrderItem> getItems(){
 		return items;
+	}
+	
+	public PaymentMethod getPaymentMethod() {
+		return paymentMethod;
 	}
 	
 	public List<CreditNote> getCreditNote() {
@@ -49,9 +56,13 @@ public class Order {
 		return shippingType.cost(this);
 	}
 	
-	// SETTERS
+	// SETTERS 
 	public void setState(State newState) {
 		state = newState;
+	}
+	
+	public void setPaymentMethod(PaymentMethod paymentM) {
+		paymentMethod = paymentM;
 	}
 	
 	// HELPERS
@@ -128,6 +139,9 @@ public class Order {
 		if (shippingType == null) {
 			throw new IllegalArgumentException("Error: El tipo de envío no es válido");
 		}
+		if (paymentMethod == null) {
+			throw new IllegalArgumentException("Error: El metodo de pago es válido");
+		}
 	}
 	
 	private Map<String, Integer> totalDemandPerSku() {
@@ -136,7 +150,6 @@ public class Order {
 	    return res;
 	}
 }
-
 
 
 
