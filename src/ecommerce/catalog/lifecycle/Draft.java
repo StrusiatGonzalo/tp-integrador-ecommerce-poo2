@@ -33,9 +33,11 @@ public class Draft extends State {
 	// decrementa el stock de cada producto y cambia el estado a CONFIRMADO
 	@Override
 	public void confirm(Order order) {
-		// order.
-		//order.getItems().forEach(i -> i.getItem().decreaseStock(i.getQuantity()));
-		order.setState(new Confirmed());
+	    if (!order.isEverythingInStock()) { // verifica si hay stock de todo lo que tiene la orden
+	        throw new IllegalArgumentException("Error: no hay stock suficiente para confirmar el pedido");
+	    }
+	    order.getItems().forEach(i -> i.getItem().decreaseStock(i.getQuantity()));
+	    order.setState(new Confirmed());
 	}
 	
 	// método para cancelar el pedido, setea el estado a CANCELADO

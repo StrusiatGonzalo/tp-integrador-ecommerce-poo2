@@ -40,6 +40,10 @@ public class Order {
 		return address;
 	}
 	
+	public State getState() {
+		return state;
+	}
+	
 	// método que describe el costo total del envío según el método de envío
 	public double getShippingCost() {
 		return shippingType.cost(this);
@@ -69,6 +73,26 @@ public class Order {
 	// método que confirma el pedido
 	public void confirm() {
 		state.confirm(this);
+	}
+	
+	// método que empieza la preparación del pedido
+	public void start() {
+	    state.start(this);
+	}
+
+	// método que envía el pedido
+	public void send() {
+	    state.send(this);
+	}
+
+	// método que entrega el pedido
+	public void deliver() {
+	    state.deliver(this);
+	}
+
+	// método que cancela el pedido
+	public void cancel() {
+	    state.cancel(this);
 	}
 	
 	// método que registra una nota de crédito para el pedido
