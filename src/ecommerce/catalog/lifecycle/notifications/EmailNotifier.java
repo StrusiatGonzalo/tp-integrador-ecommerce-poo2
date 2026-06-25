@@ -19,7 +19,6 @@ public class EmailNotifier implements OrderObserver{
 			return ;
 		}
 		mailSender.enviarMail(order.getEmail(), "Tu pedidio cambio de estado", "Ahora esta: " + next, null);		
-		
 	}
 	
 	public boolean applies(State next) {
