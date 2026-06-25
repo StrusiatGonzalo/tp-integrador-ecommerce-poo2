@@ -4,13 +4,13 @@ import ecommerce.catalog.lifecycle.Order;
 
 // Método de pago 
 public abstract class PaymentMethod {
-	private PaymentReceipt receipt;
-	private String operationNumber;
+	private PaymentReceipt receipt; // recibo
+	private String operationNumber; // numero de operación
 	
 	public void process(Order order) {
 		validateData(order); // validar datos
 		setAsideFunds(order); // reservar fondos
-		executeTransaction(order); // ejecutar transaccion
+		executeTransaction(order); // ejecutar transacción
 		notifyResult(order); // notificar resultado
 	}
 	
@@ -27,6 +27,10 @@ public abstract class PaymentMethod {
 	
 	public PaymentReceipt getReceipt() {
 		return receipt;
+	}
+	
+	public String getOperationNumber() {
+		return operationNumber;
 	}
 	
 	public void setOperationNumber(String operationNumber) {
