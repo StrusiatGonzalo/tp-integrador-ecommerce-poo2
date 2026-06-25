@@ -191,7 +191,7 @@ public class Order {
 		observers.remove(observer);
 	}
 
-	public void notifyObservers(State prev, State next) {
+	private void notifyObservers(State prev, State next) {
 		observers.forEach(o -> o.onStateChanged(this, prev, next));
 	}
 }

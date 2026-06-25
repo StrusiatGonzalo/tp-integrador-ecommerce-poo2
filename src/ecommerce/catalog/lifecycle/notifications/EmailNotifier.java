@@ -6,8 +6,8 @@ import ecommerce.catalog.lifecycle.Order;
 import ecommerce.catalog.lifecycle.Sent;
 import ecommerce.catalog.lifecycle.State;
 
-public class EmailNotifier implements OrderObserver{
-	private final MailSender mailSender;
+public class EmailNotifier implements OrderObserver{ // Un notificar via mail
+	private final MailSender mailSender; // interface de libreria que envia los mails.
 	
 	public EmailNotifier(MailSender mailSender) {
 		this.mailSender = mailSender;
@@ -18,10 +18,10 @@ public class EmailNotifier implements OrderObserver{
 		if (!applies(next)) {
 			return ;
 		}
-		mailSender.enviarMail(order.getEmail(), "Tu pedidio cambio de estado", "Ahora esta: " + next, null);		
+		mailSender.enviarMail(order.getEmail(), "Tu pedido cambio de estado", "Ahora esta: " + next.getName(), null);		
 	}
 	
-	public boolean applies(State next) {
+	private boolean applies(State next) {
 		return next instanceof Confirmed
 				|| next instanceof Sent
 				|| next instanceof Delivered;
