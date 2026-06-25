@@ -8,10 +8,11 @@ public class BankTransferPayment extends PaymentMethod{
 	private String alias;
 	private String cbu;
 	
-	public BankTransferPayment(BankTransferAPI apiConnection, String alias, String cbu) {
+	// Constructor
+	public BankTransferPayment(BankTransferAPI api, String alias, String cbu) {
 		this.cbu = cbu;
 		this.alias = alias;
-		this.apiConnection = apiConnection;
+		this.apiConnection = api;
 	}
 	
 	@Override
@@ -30,7 +31,7 @@ public class BankTransferPayment extends PaymentMethod{
 	}
 	
 	private String tranferAndGetOperationNumber(Order order) {
-		return apiConnection.transfer(order.totalCost(), cbu);
+		return apiConnection.transfer(order.getTotalToPay(), cbu);
 	}
 	
 }

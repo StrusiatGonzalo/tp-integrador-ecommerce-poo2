@@ -125,6 +125,11 @@ public class Order {
 				.sum();
 	}
 	
+	// método que devuelve el costo total del pedido + el costo de envío
+	public double getTotalToPay() {
+		return getShippingCost() + totalCost();
+	}
+	
 	// método que indica si hay stock disponible de cada item del pedido
 	public boolean isEverythingInStock() {
 	    Map<String, Integer> demand = totalDemandPerSku();
