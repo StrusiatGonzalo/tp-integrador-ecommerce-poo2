@@ -8,6 +8,7 @@ import java.util.Map;
 import ecommerce.catalog.CatalogItem;
 import ecommerce.catalog.lifecycle.shippingmethods.ShippingType;
 import ecommerce.catalog.lifecycle.shippingmethods.payment.PaymentMethod;
+import ecommerce.catalog.lifecycle.shippingmethods.payment.PaymentReceipt;
 
 // Pedido
 public class Order { 
@@ -17,6 +18,7 @@ public class Order {
 	private ShippingType shippingType; // tipo de envío
 	private String address; // direccion de envío
 	private PaymentMethod paymentMethod; // metodo de pago
+	private PaymentReceipt receipt;
 	
 	// CONSTRUCTOR
 	public Order(String address, ShippingType shippingType, PaymentMethod paymentMethod) {
@@ -26,6 +28,7 @@ public class Order {
 		this.address = address;
 		this.shippingType = shippingType;
 		this.paymentMethod = paymentMethod;
+		this.receipt = null;
 		
 		validate();
 	}
@@ -56,6 +59,10 @@ public class Order {
 		return shippingType.cost(this);
 	}
 	
+	public PaymentReceipt getPaymentReceipt() {
+		return receipt;
+	}
+	
 	// SETTERS 
 	public void setState(State newState) {
 		state = newState;
@@ -65,6 +72,9 @@ public class Order {
 		paymentMethod = paymentM;
 	}
 	
+	public void setPaymentReceipt(PaymentReceipt newReceipt) {
+		receipt = newReceipt;
+	}
 	// HELPERS
 	// método que agrega un item al pedido
 	public void add(CatalogItem item, int quantity) {
@@ -154,6 +164,7 @@ public class Order {
 	    items.forEach(i -> i.getItem().accumulateProductDemand(i.getQuantity(), res));
 	    return res;
 	}
+
 }
 
 

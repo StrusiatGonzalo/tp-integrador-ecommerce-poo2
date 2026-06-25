@@ -36,7 +36,11 @@ public class Draft extends State {
 	    if (!order.isEverythingInStock()) { // verifica si hay stock de todo lo que tiene la orden
 	        throw new IllegalArgumentException("Error: no hay stock suficiente para confirmar el pedido");
 	    }
+	    
+	    order.getPaymentMethod().process(order);
+	    
 	    order.getItems().forEach(i -> i.getItem().decreaseStock(i.getQuantity()));
+	    order.setPaymentReceipt(order.getPaymentMethod().getReceipt());
 	    order.setState(new Confirmed());
 	}
 	
