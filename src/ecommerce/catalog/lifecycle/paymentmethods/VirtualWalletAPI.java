@@ -1,4 +1,4 @@
-package ecommerce.catalog.lifecycle.shippingmethods.payment;
+package ecommerce.catalog.lifecycle.paymentmethods;
 
 // Billetera virtual
 public interface VirtualWalletAPI { 

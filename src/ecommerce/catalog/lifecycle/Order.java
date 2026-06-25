@@ -6,9 +6,10 @@ import java.util.List;
 import java.util.Map;
 
 import ecommerce.catalog.CatalogItem;
+import ecommerce.catalog.lifecycle.notifications.OrderObserver;
+import ecommerce.catalog.lifecycle.paymentmethods.PaymentMethod;
+import ecommerce.catalog.lifecycle.paymentmethods.PaymentReceipt;
 import ecommerce.catalog.lifecycle.shippingmethods.ShippingType;
-import ecommerce.catalog.lifecycle.shippingmethods.payment.PaymentMethod;
-import ecommerce.catalog.lifecycle.shippingmethods.payment.PaymentReceipt;
 
 // Pedido
 public class Order { 
@@ -19,9 +20,11 @@ public class Order {
 	private String address; // direccion de envío
 	private PaymentMethod paymentMethod; // metodo de pago
 	private PaymentReceipt receipt;
+	private List<OrderObserver> observers;
+	private String email;
 	
 	// CONSTRUCTOR
-	public Order(String address, ShippingType shippingType, PaymentMethod paymentMethod) {
+	public Order(String address, ShippingType shippingType, PaymentMethod paymentMethod, String email) {
 		this.state = new Draft();
 		this.items = new ArrayList<>();
 		this.creditNotes = new ArrayList<>();
@@ -29,6 +32,8 @@ public class Order {
 		this.shippingType = shippingType;
 		this.paymentMethod = paymentMethod;
 		this.receipt = null;
+		this.observers = new ArrayList<>();
+		this.email = email;
 		
 		validate();
 	}
@@ -54,6 +59,10 @@ public class Order {
 		return state;
 	}
 	
+	public String getEmail() {
+		return email;
+	}
+	
 	// método que describe el costo total del envío según el método de envío
 	public double getShippingCost() {
 		return shippingType.cost(this);
@@ -64,8 +73,11 @@ public class Order {
 	}
 	
 	// SETTERS 
+	// este es el unico metodo donde se modifica el estado
 	public void setState(State newState) {
+		State prev = state;
 		state = newState;
+		notifyObservers(prev, state);
 	}
 	
 	public void setPaymentMethod(PaymentMethod paymentM) {
@@ -157,6 +169,9 @@ public class Order {
 		if (paymentMethod == null) {
 			throw new IllegalArgumentException("Error: El metodo de pago es válido");
 		}
+		if (email == null || email.isBlank()) {
+			throw new IllegalArgumentException("Error: La dirección de email es inválida");
+		}
 	}
 	
 	private Map<String, Integer> totalDemandPerSku() {
@@ -164,7 +179,21 @@ public class Order {
 	    items.forEach(i -> i.getItem().accumulateProductDemand(i.getQuantity(), res));
 	    return res;
 	}
+	
+	// PROTOCOLO OBSERVER
+	// un subsistema nuevo se suma llamando a ese metodo
+	public void subscribe(OrderObserver observer) {
+		observers.add(observer);
+	}
+	
+	// si un subsistema quiere dejar de escuchar
+	public void unsubscribe(OrderObserver observer) {
+		observers.remove(observer);
+	}
 
+	public void notifyObservers(State prev, State next) {
+		observers.forEach(o -> o.onStateChanged(this, prev, next));
+	}
 }
 
 

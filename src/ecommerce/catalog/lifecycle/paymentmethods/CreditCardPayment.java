@@ -1,4 +1,4 @@
-package ecommerce.catalog.lifecycle.shippingmethods.payment;
+package ecommerce.catalog.lifecycle.paymentmethods;
 
 import ecommerce.catalog.lifecycle.Order;
 

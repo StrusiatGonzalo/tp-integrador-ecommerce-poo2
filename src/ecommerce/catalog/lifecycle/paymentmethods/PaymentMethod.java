@@ -1,4 +1,4 @@
-package ecommerce.catalog.lifecycle.shippingmethods.payment;
+package ecommerce.catalog.lifecycle.paymentmethods;
 
 import ecommerce.catalog.lifecycle.Order;
 
@@ -7,7 +7,7 @@ public abstract class PaymentMethod {
 	private PaymentReceipt receipt; // recibo
 	private String operationNumber; // numero de operación
 	
-	public void process(Order order) {
+	public final void process(Order order) {
 		validateData(order); // validar datos
 		setAsideFunds(order); // reservar fondos
 		executeTransaction(order); // ejecutar transacción
@@ -29,11 +29,11 @@ public abstract class PaymentMethod {
 		return receipt;
 	}
 	
-	public String getOperationNumber() {
+	protected String getOperationNumber() {
 		return operationNumber;
 	}
 	
-	public void setOperationNumber(String operationNumber) {
+	protected void setOperationNumber(String operationNumber) {
 		this.operationNumber = operationNumber;
 	}
 }

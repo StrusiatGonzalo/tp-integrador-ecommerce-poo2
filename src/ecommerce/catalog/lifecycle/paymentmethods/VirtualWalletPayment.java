@@ -1,4 +1,4 @@
-package ecommerce.catalog.lifecycle.shippingmethods.payment;
+package ecommerce.catalog.lifecycle.paymentmethods;
 
 import ecommerce.catalog.lifecycle.Order;
 
@@ -28,6 +28,12 @@ public class VirtualWalletPayment extends PaymentMethod {
 	@Override
 	public void executeTransaction(Order order) {
 		setOperationNumber(accreditAndGetOperationNumber(order));
+	}
+	
+	@Override
+	public void notifyResult(Order order) {
+		super.notifyResult(order); // conserva el comportamiento default, genera el recibo
+		// aca iria la logia de la notificiacion push
 	}
 	
 	// solicitar a la api la acreditación, esto devuelve el numero de transacción

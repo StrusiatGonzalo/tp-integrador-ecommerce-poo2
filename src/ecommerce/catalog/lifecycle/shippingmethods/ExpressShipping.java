@@ -4,10 +4,15 @@ import ecommerce.catalog.lifecycle.Order;
 
 // Método de envío express
 public class ExpressShipping implements ShippingType{
+	private final ExpressShippingAPI apiConnection;
+	
+	public ExpressShipping(ExpressShippingAPI apiConnection) {
+		this.apiConnection = apiConnection;
+	}
 	
 	@Override
 	public double cost(Order order) { // método polimorfico, no usa address
-		return EnvioExpressMock.calcularCosto(order.totalCost()); // de librería, retorna el costo
+		return apiConnection.calculateCost(order.totalCost()); // de librería, retorna el costo
 	}
 	
 	@Override

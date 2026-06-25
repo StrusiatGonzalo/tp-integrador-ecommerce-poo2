@@ -1,4 +1,4 @@
-package ecommerce.catalog.lifecycle.shippingmethods.payment;
+package ecommerce.catalog.lifecycle.paymentmethods;
 
 import ecommerce.catalog.lifecycle.Order;
 
@@ -8,7 +8,7 @@ public class PaymentReceipt { // Recibo de pago
 	
 	public PaymentReceipt(Order order, String operationNumber) {
 		this.operationNumber = operationNumber;
-		this.amount = order.totalCost();
+		this.amount = order.getTotalToPay();
 	}
 	
 	public double getAmount() {
