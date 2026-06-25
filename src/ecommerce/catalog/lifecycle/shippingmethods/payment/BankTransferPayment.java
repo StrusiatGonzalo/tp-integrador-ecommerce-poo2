@@ -2,37 +2,35 @@ package ecommerce.catalog.lifecycle.shippingmethods.payment;
 
 import ecommerce.catalog.lifecycle.Order;
 
-public class BankTransferPayment extends PaymentMethod{ // Pago por transferencia bancaria
-	private String operationNumber;
-	private BankTransferAPI apiConection;
+// Pago por transferencia bancaria
+public class BankTransferPayment extends PaymentMethod{ 
+	private BankTransferAPI apiConnection;
 	private String alias;
 	private String cbu;
 	
-	public BankTransferPayment(String operationNumber, BankTransferAPI apiConection) {
-		this.apiConection = apiConection;
+	public BankTransferPayment(BankTransferAPI apiConnection, String alias, String cbu) {
+		this.cbu = cbu;
+		this.alias = alias;
+		this.apiConnection = apiConnection;
 	}
 	
 	@Override
 	public void validateData(Order order) {
-		apiConection.validateCBU(cbu, alias);
+		apiConnection.validateCBU(cbu, alias);
 	}
 	
 	@Override
 	public void setAsideFunds(Order order) {
-		
+		// No aplica porque la transferencia es directa
 	}
 	
 	@Override
 	public void executeTransaction(Order order) {
-		apiConection.transfer(order.totalCost(), cbu);
+		setOperationNumber(tranferAndGetOperationNumber(order));
 	}
 	
-	@Override
-	public void notifyResult(Order order) {
-		
+	private String tranferAndGetOperationNumber(Order order) {
+		return apiConnection.transfer(order.totalCost(), cbu);
 	}
 	
-	public PaymentReceipt getReceipt(Order order) {
-		return new PaymentReceipt(operationNumber, order.totalCost());
-	}
 }

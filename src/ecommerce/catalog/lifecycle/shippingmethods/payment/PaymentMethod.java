@@ -2,7 +2,10 @@ package ecommerce.catalog.lifecycle.shippingmethods.payment;
 
 import ecommerce.catalog.lifecycle.Order;
 
+// Método de pago 
 public abstract class PaymentMethod {
+	private PaymentReceipt receipt;
+	private String operationNumber;
 	
 	public void process(Order order) {
 		validateData(order); // validar datos
@@ -17,7 +20,18 @@ public abstract class PaymentMethod {
 	
 	public abstract void executeTransaction(Order order);
 	
-	public abstract void notifyResult(Order order);
+	// Hook: este método puede ser sobreescrito en las subclases según se necesite
+	public void notifyResult(Order order) {
+		this.receipt = new PaymentReceipt(order, operationNumber);
+	}
+	
+	public PaymentReceipt getReceipt() {
+		return receipt;
+	}
+	
+	public void setOperationNumber(String operationNumber) {
+		this.operationNumber = operationNumber;
+	}
 }
 
 
