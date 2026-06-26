@@ -23,4 +23,9 @@ public class Sent extends State{
 	public void deliver(Order order) {
 		order.setState(new Delivered()); // setea el estado a ENTREGADO
 	}
+	
+	@Override
+	public boolean isSuccessfulProgress() { // Es un progreso exitoso
+		return true;
+	}
 }

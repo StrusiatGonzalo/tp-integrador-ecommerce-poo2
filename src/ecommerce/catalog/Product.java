@@ -76,6 +76,7 @@ public class Product implements CatalogItem {
 		return brand;
 	}
 	
+	@Override
 	public String getCategory() {
 		return category;
 	}

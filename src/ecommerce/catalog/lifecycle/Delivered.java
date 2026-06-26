@@ -9,4 +9,14 @@ public class Delivered extends State{ //Entregado
 	public String getName() {
 		return "ENTREGADO";
 	}
+	
+	@Override 
+	public boolean isFinal() { // Es final
+		return true;
+	}
+	
+	@Override
+	public boolean isSuccessfulProgress() { // Es un progreso exitoso
+		return true;
+	}
 }

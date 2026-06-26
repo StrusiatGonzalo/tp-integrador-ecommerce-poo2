@@ -9,12 +9,24 @@ public class Bundle implements CatalogItem{ // paquete
 	private String description;
 	private double discountRate;
 	private List<CatalogItem> items; // items del paquete (productos o paquetes) - composite
+	private String category; 
 	
 	// CONSTRUCTOR
+	public Bundle(String name, String description, double discountRate, String category) {
+		this.name = name;
+		this.description = description;
+		this.discountRate = discountRate;
+		this.category = category;
+		this.items = new ArrayList<>();
+		
+		validate();
+	}
+	
 	public Bundle(String name, String description, double discountRate) {
 		this.name = name;
 		this.description = description;
 		this.discountRate = discountRate;
+		this.category = null;
 		this.items = new ArrayList<>();
 		
 		validate();
@@ -24,6 +36,10 @@ public class Bundle implements CatalogItem{ // paquete
 	@Override
 	public String getName() {
 		return this.name;
+	}
+	
+	public String getCategory() {
+		return category;
 	}
 
 	@Override
@@ -93,6 +109,9 @@ public class Bundle implements CatalogItem{ // paquete
 		}		
 		if (getDiscountRate() < 0) {
 			throw new IllegalArgumentException("Error: El descuento del paquete es invalido");
+		}
+		if (getCategory().isBlank()) {
+			throw new IllegalArgumentException("Error: El nombre de la categoria es invalido");
 		}
 	}
 	

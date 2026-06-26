@@ -24,6 +24,10 @@ public class Confirmed extends State{
 	public void cancel(Order order) {
 		order.getItems().forEach(i -> i.getItem().increaseStock(i.getQuantity()));
 		order.setState(new Canceled()); // se setea el estado a CANCELADO
-
+	}
+	
+	@Override
+	public boolean isSuccessfulProgress() { // Es un progreso exitoso
+		return true;
 	}
 }

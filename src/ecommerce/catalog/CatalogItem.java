@@ -15,4 +15,5 @@ public interface CatalogItem {
 	double getWeight();
 	void accumulateProductDemand(int multiplier, Map<String, Integer> demandBySku);
 	boolean hasEnoughStockFor(Map<String, Integer> demandBySku);
+	String getCategory();
 }

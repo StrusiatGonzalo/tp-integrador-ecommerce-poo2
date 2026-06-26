@@ -36,4 +36,15 @@ public abstract class State {
 		throw new IllegalStateException("Error: No se puede enviar el pedido en el estado: " + getName());
 	}
 	
+	public boolean isSuccessfulProgress() { // Es un progreso exitoso
+		return false;
+	}
+	
+	public boolean isFinal() { // Es final
+		return false;
+	}
+	
+	public boolean isCancelled() { // Es cancelable
+		return false;
+	}
 }
