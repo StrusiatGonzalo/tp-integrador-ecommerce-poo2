@@ -22,16 +22,6 @@ public class Bundle implements CatalogItem{ // paquete
 		validate();
 	}
 	
-	public Bundle(String name, String description, double discountRate) {
-		this.name = name;
-		this.description = description;
-		this.discountRate = discountRate;
-		this.category = null;
-		this.items = new ArrayList<>();
-		
-		validate();
-	}
-	
 	// GETTERS
 	@Override
 	public String getName() {
