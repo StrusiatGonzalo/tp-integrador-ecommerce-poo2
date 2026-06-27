@@ -55,8 +55,8 @@ class ProductTest {
 		ventaLibre = new Attribute<Boolean>("Venta libre", true);
 		
 		// Bundles
-		botiquinPA = new Bundle("Botiquin PA","Botiquin primeros auxilios", 0.1);
-		botiquin = new Bundle("Botiquin Completo","Botiquin Completo", 0.15);
+		botiquinPA = new Bundle("Botiquin PA","Botiquin primeros auxilios", 0.1, "a");
+		botiquin = new Bundle("Botiquin Completo","Botiquin Completo", 0.15, "a");
 
 		// Listas de Atributos
 		attributes = new ArrayList<>();
@@ -115,7 +115,7 @@ class ProductTest {
 	@Test 
 	void testValidateAttributesName() {
 	    Exception e = assertThrows(IllegalArgumentException.class, () ->
-	        new Product("1", "", "Not Brand", "", "",10.0, 0.0, 0)
+	        new Product("1", "", "Not Brand", "a", "",10.0, 0.0, 0)
 	    );
 
 	    assertEquals("Error: El nombre es invalido", e.getMessage());
@@ -124,7 +124,7 @@ class ProductTest {
 	@Test 
 	void testValidateAttributesBrand() {
 	    Exception e = assertThrows(IllegalArgumentException.class, () ->
-	        new Product("1", "Invalid", null, "", "",10.0, 0.0, 0)
+	        new Product("1", "Invalid", null, "a", "",10.0, 0.0, 0)
 	    );
 
 	    assertEquals("Error: La marca es invalida", e.getMessage());
