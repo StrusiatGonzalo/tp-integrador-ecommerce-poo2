@@ -22,6 +22,7 @@ public class Sent extends State{
 	@Override
 	public void deliver(Order order) {
 		order.setState(new Delivered()); // setea el estado a ENTREGADO
+		order.getItems().forEach(i -> i.captureSalesSnapshot()); // guarda la venta
 	}
 	
 	@Override
