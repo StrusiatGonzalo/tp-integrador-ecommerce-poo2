@@ -1,4 +1,4 @@
-package product;
+package catalog;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -53,6 +53,7 @@ class BundleTest extends AttributesTest{
 		botiquin.addItem(alcohol);
 		botiquin.addItem(cintaHipoalergenica);
 
+		assertEquals(5, botiquin.getStock());
 		assertTrue(botiquin.hasStock(5));
 		assertFalse(botiquin.hasStock(6));
 	}
@@ -73,14 +74,14 @@ class BundleTest extends AttributesTest{
 	@Test
 	void bundleConNombreVacioLanzaExcepcion() {
 		Exception e = assertThrows(IllegalArgumentException.class, () ->
-			new Bundle("", "desc", 0.1));
+			new Bundle("", "desc", 0.1, "Categoria"));
 		assertEquals("Error: El nombre del paquete es invalido", e.getMessage());
 	}
 
 	@Test
 	void bundleConDescuentoNegativoLanzaExcepcion() {
 		Exception e = assertThrows(IllegalArgumentException.class, () ->
-			new Bundle("Nombre", "desc", -0.1));
+			new Bundle("Nombre", "desc", -0.1, "Categoria"));
 		assertEquals("Error: El descuento del paquete es invalido", e.getMessage());
 	}
 }

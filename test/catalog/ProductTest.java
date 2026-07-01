@@ -1,4 +1,4 @@
-package product;
+package catalog;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -74,6 +74,8 @@ class ProductTest {
 		assertEquals("A02", curitas.getSku());
 		assertEquals("Crema", mertiolateC.getCategory());
 		assertEquals("Ibuprofeno 600mg blister x10", ibuprofeno.getDescription());
+		assertEquals(10, ibuprofeno.getStock());
+		
 	}
 	
 	@Test // test simple de descuentos

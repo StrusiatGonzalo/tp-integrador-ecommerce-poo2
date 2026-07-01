@@ -8,12 +8,4 @@ public class CreditNote {
 		this.amount = amount;
 		this.description = description;
 	}
-	
-	public double getProductCost() {
-		return amount;
-	}
-	
-	public String getDescription() {
-		return description;
-	}
 }

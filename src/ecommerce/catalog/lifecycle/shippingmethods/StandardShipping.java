@@ -4,9 +4,9 @@ import ecommerce.catalog.lifecycle.Order;
 
 // Método de envío estándar
 public class StandardShipping implements ShippingType {
-	private final StandarShippingAPI apiConnection;
+	private final StandardShippingAPI apiConnection;
 	
-	public StandardShipping(StandarShippingAPI apiConnection) {
+	public StandardShipping(StandardShippingAPI apiConnection) {
 		this.apiConnection = apiConnection;
 	}
 	

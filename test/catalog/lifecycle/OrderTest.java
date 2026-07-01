@@ -1,4 +1,4 @@
-package product;
+package catalog.lifecycle;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -34,10 +34,10 @@ class OrderTest {
 		termometro = new Product("T01", "Termometro digital", "Microlife", "Equipos", "Termometro digital de uso clinico", 50.0, 4500.0, 6);
 
 		// bundle (paquete)
-		kitInyectable = new Bundle("Kit Inyectable", "Kit para administracion de inyectables", 0.1);
+		kitInyectable = new Bundle("Kit Inyectable", "Kit para administracion de inyectables", 0.1, "Inyectables");
 
 		// pedido
-		order = new Order("Avenida Siempreviva 742", new ExpressShipping());
+		order = new Order("Avenida Siempreviva 742", new ExpressShipping() );
 	}
 
 	@Test // test de totalCost, multiplicando por cantidad
