@@ -4,20 +4,31 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import ecommerce.catalog.Bundle;
 import ecommerce.catalog.Product;
 import ecommerce.catalog.lifecycle.Order;
+import ecommerce.catalog.lifecycle.paymentmethods.PaymentMethod;
 import ecommerce.catalog.lifecycle.shippingmethods.ExpressShipping;
+import ecommerce.catalog.lifecycle.shippingmethods.ExpressShippingAPI;
 
+
+@ExtendWith(MockitoExtension.class)
 class OrderTest {
 
+	@Mock ExpressShippingAPI shippingApi;
+	@Mock PaymentMethod paymentMethod;
+	
 	Product paracetamol;
 	Product jeringa;
 	Product algodon;
 	Product agujasDescartables;
 	Product alcoholEnGel;
 	Product termometro;
+	ExpressShipping envioExpres;
 
 	Bundle kitInyectable;
 
@@ -32,12 +43,13 @@ class OrderTest {
 		agujasDescartables = new Product("J02", "Agujas descartables", "BD", "Inyectables", "Agujas 21G x10u", 5.0, 600.0, 25);
 		alcoholEnGel = new Product("B05", "Alcohol en gel", "ACME", "Botellas", "Alcohol en gel 250ml", 250.0, 1800.0, 12);
 		termometro = new Product("T01", "Termometro digital", "Microlife", "Equipos", "Termometro digital de uso clinico", 50.0, 4500.0, 6);
+		envioExpres = new ExpressShipping(shippingApi);
 
 		// bundle (paquete)
 		kitInyectable = new Bundle("Kit Inyectable", "Kit para administracion de inyectables", 0.1, "Inyectables");
 
 		// pedido
-		order = new Order("Avenida Siempreviva 742", new ExpressShipping() );
+		order = new Order("Avenida Siempreviva 742", envioExpres, paymentMethod,"mail");
 	}
 
 	@Test // test de totalCost, multiplicando por cantidad

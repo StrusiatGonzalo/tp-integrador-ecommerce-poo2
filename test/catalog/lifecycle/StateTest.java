@@ -93,7 +93,7 @@ class StateTest {
 		OrderItem itemSuelto = new OrderItem(venda, 1);
 		order.addNewItem(itemSuelto); // agregue un item
 		order.delete(itemSuelto);
-		assertEquals(2, order.getItems().size()); // verifico si se quito el item
+		assertEquals(1, order.getItems().size()); // verifico si se quito el item
 	}
 
 	// CONFIRMADO
