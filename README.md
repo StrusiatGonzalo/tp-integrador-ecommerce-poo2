@@ -3,9 +3,9 @@
 Trabajo práctico integrador de la materia Programación Orientada a Objetos II que consiste en un sistema de e-commerce sin frameworks, sin persistencia y sin interfaces gráficas. El objetivo es demostrar el correcto uso de principios y patrones de diseño orientado a objetos.
 
 **Integrantes:** 
-- Lasota, Pablo
-- Strusiat, Gonzalo
-- Genez, Milena
+- Lasota, Pablo ([@LasotaP](https://github.com/LasotaP)) - lasotapablo01@gmail.com
+- Strusiat, Gonzalo ([@StrusiatGonzalo](https://github.com/StrusiatGonzalo)) - gonzaloostrusiat@gmail.com
+- Genez, Milena ([@Milenag](https://github.com/mile-nag)) - genezmilena@gmail.com
 
 > La siguiente documentación fue hecha a medida que se avanzaba con la resolución y describe algunas decisiones de diseño tomadas a lo largo del desarrollo de la solución. En algunos casos mostramos el código para ejemplificar pero estas clases y/o fragmentos al final crecen y/o cambian.
 
