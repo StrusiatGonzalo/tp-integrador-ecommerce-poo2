@@ -285,6 +285,11 @@ El sistema ofrece distintos métodos de envío (express, estándar y retiro en s
 ### Patrón Strategy
 Sin `Strategy`, `Order` tendría que preguntar qué tipo de envío tiene antes de calcular el costo.
 
+**Roles:**
+- **Context** -> `Order`
+- **Strategy** -> `ShippingType`
+- **ConcreteStrategy** -> `ExpressShipping`, `StandardShipping`, `LocalPickUp`
+
 `ShippingType` es la interfaz `Strategy`. Order mantiene una referencia a la estrategia elegida y delega:
 
 ```java
@@ -373,6 +378,10 @@ El enunciado describe un proceso con pasos y orden fijos: validar, reservar, eje
 ### Patrón: Template Method
 Sin template method, cada clase repetiría el mismo `process()` con el mismo orden de pasos y nada impediría que alguna subclase invierta el orden, se salte un paso o lo llame 2 veces.
 
+**Roles:**
+- **AbstractClass** -> `PaymentMethod`
+- **ConcreteClass** -> `CreditCardPayment`, `BankTransferPayment`, `VirtualWalletPayment`
+
 ```java
 public abstract class PaymentMethod {
     public final void process(Order order) { // final
@@ -452,6 +461,11 @@ El orden de estas tres acciones importa:
 ## Módulo 2.5: Notificaciones del pedido
 
 En este módulo se usa **Observer** (`Order` avisa cambios de estado sin conocer sus suscriptores).
+
+**Roles:**
+- **Subject** -> `Order`
+- **Observer** -> `OrderObserver`
+- **ConcreteSubjet** -> `Order` (mismo)
 
 La primera aproximación a esta solución funcionaba pero usaba instanceOf para que cada observador tome la decisión de que hacer cuando una transición le interesa.
 
@@ -591,10 +605,10 @@ Esta es la misma estructura que se usó para CatalogItem/Product/Bundle en el m�
 Sin composite combinar algunos criterios obligaría a una clase por cada combinación posible o usar if/switch por cada operador.
 
 **Roles:**
-- **Component**-> SearchCriteria (interfaz)
-- **Leaf** -> NameContainsCriteria, MaxPriceCriteria, CategoryCriteria, AvailabilityCriteria
-- **Composite** -> AndCriteria, OrCriteria, NotCriteria
-- **Client** -> Catalog
+- **Component**-> `SearchCriteria` (interfaz)
+- **Leaf** -> `NameContainsCriteria`, `MaxPriceCriteria`, `CategoryCriteria`, `AvailabilityCriteria`
+- **Composite** -> `AndCriteria`, `OrCriteria`, `NotCriteria`
+- **Client** -> `Catalog`
 
 ```java
 public interface SearchCriteria {
@@ -661,10 +675,10 @@ El propio enunciado indica el patrón: Visitor.
 ### Patrón aplicado: Visitor
 
 **Roles:**
-- **Element** -> Report (interfaz)
-- **ConcreteElement** -> ProductSalesReport (y futuros tipos de reporte)
-- **Visitor** -> ReportVisitor (interfaz)
-- **ConcreteVisitor** -> PlainTextExporter, CsvExporter, HtmlExporter
+- **Element** -> `Report` (interfaz)
+- **ConcreteElement** -> `ProductSalesReport` (y futuros tipos de reporte)
+- **Visitor** -> `ReportVisitor` (interfaz)
+- **ConcreteVisitor** -> `PlainTextExporter`, `CsvExporter`, `HtmlExporter`
 
 ```java
 public interface Report {
