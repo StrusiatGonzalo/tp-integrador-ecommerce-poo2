@@ -53,7 +53,7 @@ class BundleTest extends AttributesTest{
 		botiquin.addItem(alcohol);
 		botiquin.addItem(cintaHipoalergenica);
 
-		assertEquals(5, botiquin.getStock());
+		assertEquals(45, botiquin.getStock());
 		assertTrue(botiquin.hasStock(5));
 		assertFalse(botiquin.hasStock(6));
 	}
