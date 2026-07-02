@@ -176,6 +176,4 @@ class SearchCriteriaTest {
 		
 		assertEquals("Error: NOT necesita un criterio", e.getMessage());
     }
-
-
 }

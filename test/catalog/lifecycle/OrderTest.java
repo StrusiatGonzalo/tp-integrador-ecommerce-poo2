@@ -137,4 +137,53 @@ class OrderTest {
 		assertEquals(21, agujasDescartables.getStock());
 		assertEquals(4, termometro.getStock());
 	}	
+	
+	@Test
+	void orderConDireccionNulaLanzaExcepcion() {
+	    Exception e = assertThrows(IllegalArgumentException.class, () ->
+	        new Order(null, new ExpressShipping(shippingApi), paymentMethod, "test@mail.com")
+	    );
+	    assertEquals("Error: La dirección de envío es inválida", e.getMessage());
+	}
+
+	@Test
+	void orderConDireccionVaciaLanzaExcepcion() {
+	    Exception e = assertThrows(IllegalArgumentException.class, () ->
+	        new Order("   ", new ExpressShipping(shippingApi), paymentMethod, "test@mail.com")
+	    );
+	    assertEquals("Error: La dirección de envío es inválida", e.getMessage());
+	}
+
+	@Test
+	void orderConShippingTypeNuloLanzaExcepcion() {
+	    Exception e = assertThrows(IllegalArgumentException.class, () ->
+	        new Order("Av. Test 1", null, paymentMethod, "test@mail.com")
+	    );
+	    assertEquals("Error: El tipo de envío no es válido", e.getMessage());
+	}
+
+	@Test
+	void orderConPaymentMethodNuloLanzaExcepcion() {
+	    Exception e = assertThrows(IllegalArgumentException.class, () ->
+	        new Order("Av. Test 1", new ExpressShipping(shippingApi), null, "test@mail.com")
+	    );
+	    assertEquals("Error: El metodo de pago es válido", e.getMessage());
+	}
+
+	@Test
+	void orderConEmailNuloLanzaExcepcion() {
+	    Exception e = assertThrows(IllegalArgumentException.class, () ->
+	        new Order("Av. Test 1", new ExpressShipping(shippingApi), paymentMethod, null)
+	    );
+	    assertEquals("Error: La dirección de email es inválida", e.getMessage());
+	}
+
+	@Test
+	void orderConEmailVacioLanzaExcepcion() {
+	    Exception e = assertThrows(IllegalArgumentException.class, () ->
+	        new Order("Av. Test 1", new ExpressShipping(shippingApi), paymentMethod, "  ")
+	    );
+	    assertEquals("Error: La dirección de email es inválida", e.getMessage());
+	}
+
 }

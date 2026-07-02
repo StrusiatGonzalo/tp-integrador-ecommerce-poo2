@@ -84,6 +84,31 @@ class BundleTest extends AttributesTest{
 			new Bundle("Nombre", "desc", -0.1, "Categoria"));
 		assertEquals("Error: El descuento del paquete es invalido", e.getMessage());
 	}
+	
+	@Test
+	void increaseStockIncrementaElStockDeTodasLasPartesDelBundle() {
+	    botiquinPA.addItem(curitas); 
+	    botiquinPA.addItem(gaza);     
+
+	    botiquinPA.increaseStock(3);
+
+	    assertEquals(13, curitas.getStock());
+	    assertEquals(8, gaza.getStock());
+	}
+
+	@Test
+	void increaseStockEsRecursivoConBundleAnidado() {
+	    botiquinPA.addItem(curitas); 
+	    
+	    botiquin.addItem(botiquinPA);
+	    botiquin.addItem(alcohol);   
+
+	    botiquin.increaseStock(5);
+
+	    assertEquals(15, curitas.getStock());
+	    assertEquals(25, alcohol.getStock());
+	}
+
 }
 
 
