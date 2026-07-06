@@ -17,7 +17,7 @@ public class Draft extends State {
 	// método para agregar un item al pedido
 	@Override
 	public void addItem(Order order, CatalogItem item, int quantity) {
-		order.addNewItem(new OrderItem(item, quantity));
+		order.addNewItem(new OrderItem(item, quantity)); 
 	}
 	
 	// método para borrar un item del pedido, si el item no existe en el pedido se lanza un error 

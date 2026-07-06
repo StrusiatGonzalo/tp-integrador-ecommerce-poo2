@@ -16,7 +16,7 @@ public class Confirmed extends State{
 	@Override
 	public void start(Order order) {
 		order.setState(new InPreparation()); // setea el estado a EN_PREPARACION
-	}
+	} 
 	
 	// método para cancelar el pedido
 	// fue cancelado en este estado entonces, se incrementa el stock de los items del pedido

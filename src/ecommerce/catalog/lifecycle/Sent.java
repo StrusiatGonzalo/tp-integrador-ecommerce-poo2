@@ -17,7 +17,7 @@ public class Sent extends State{
 		order.registerCreditNote(new CreditNote(order.totalCost(), "reenbolso por el costo total de los productos"));
 		order.setState(new Canceled()); // setea el estado a CANCELADO
 		
-		order.notifyCanceled();
+		order.notifyCanceled(); 
 	}
 	
 	// método para entregar el pedido

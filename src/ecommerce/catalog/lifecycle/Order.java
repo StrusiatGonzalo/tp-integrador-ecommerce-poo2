@@ -200,7 +200,7 @@ public class Order {
 
 	public void notifyCanceled() {
 	    observers.forEach(o -> o.notifyCanceled(this));
-	}
+	} 
 }
 
 
