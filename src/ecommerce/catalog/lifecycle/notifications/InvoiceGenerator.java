@@ -15,10 +15,8 @@ public class InvoiceGenerator implements OrderObserver{ // Un generador de factu
 	}
 	
 	@Override
-	public void onStateChanged(Order order, State prev, State next) {
-		if (next.isFinal()) {
-			invoices.add(new Invoice(order.getTotalToPay(), order.getAddress()));
-		}
+	public void notifyFinal(Order order) {
+		invoices.add(new Invoice(order.getTotalToPay(), order.getAddress()));
 	}
 	
 	public List<Invoice> getInvoices(){

@@ -11,9 +11,8 @@ public class EmailNotifier implements OrderObserver{ // Un notificar via mail
 	}
 	
 	@Override
-	public void onStateChanged(Order order, State prev, State next) {
-		if (next.isSuccessfulProgress()) {
-			mailSender.enviarMail(order.getEmail(), "Tu pedido cambio de estado", "Ahora esta: " + next.getName(), null);
-		}		
+	public void notifySuccessfulProgress(Order order) {
+		mailSender.enviarMail(order.getEmail(), "Tu pedido cambio de estado", "Ahora esta: " + order.getState().getName(), null);	
 	}
+	
 }
