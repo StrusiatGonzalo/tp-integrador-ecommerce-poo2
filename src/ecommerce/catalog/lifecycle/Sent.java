@@ -16,6 +16,8 @@ public class Sent extends State{
 	public void cancel(Order order) {
 		order.registerCreditNote(new CreditNote(order.totalCost(), "reenbolso por el costo total de los productos"));
 		order.setState(new Canceled()); // setea el estado a CANCELADO
+		
+		order.notifyCanceled();
 	}
 	
 	// método para entregar el pedido
@@ -23,10 +25,9 @@ public class Sent extends State{
 	public void deliver(Order order) {
 		order.setState(new Delivered()); // setea el estado a ENTREGADO
 		order.getItems().forEach(i -> i.captureSalesSnapshot()); // guarda la venta
-	}
-	
-	@Override
-	public boolean isSuccessfulProgress() { // Es un progreso exitoso
-		return true;
+		
+	    //aca notificamos a todos los subscriptos del cambio de estado a entregado
+	    order.notifySuccessfulProgress();
+	    order.notifyFinal();
 	}
 }

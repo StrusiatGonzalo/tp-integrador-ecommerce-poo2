@@ -75,9 +75,8 @@ public class Order {
 	// SETTERS 
 	// este es el unico metodo donde se modifica el estado
 	public void setState(State newState) {
-		State prev = state;
 		state = newState;
-		notifyObservers(prev, state);
+		
 	}
 	
 	public void setPaymentMethod(PaymentMethod paymentM) {
@@ -190,9 +189,17 @@ public class Order {
 	public void unsubscribe(OrderObserver observer) {
 		observers.remove(observer);
 	}
+	
+	public void notifySuccessfulProgress() {
+	    observers.forEach(o -> o.notifySuccessfulProgress(this));
+	}
 
-	private void notifyObservers(State prev, State next) {
-		observers.forEach(o -> o.onStateChanged(this, prev, next));
+	public void notifyFinal() {
+	    observers.forEach(o -> o.notifyFinal(this));
+	}
+
+	public void notifyCanceled() {
+	    observers.forEach(o -> o.notifyCanceled(this));
 	}
 }
 

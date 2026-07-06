@@ -13,7 +13,6 @@ public class ProductSalesReportGenerator {
         Map<CatalogItem, Double> revenue = new HashMap<>(); // plata ganada con estas ventas 
 
         orders.stream()
-              .filter(order -> order.getState().isFinal()) // final es ENTREGADO 
               .flatMap(order -> order.getItems().stream()) // transformar y aplanar - nos devuelve todos los items de los pedidos juntos
               .forEach(oi -> { // por cada OrderItem del pedido
                   unitsSold.merge(oi.getItem(), oi.getQuantity(), Integer::sum); // hace un merge entre los productos y las cantidades

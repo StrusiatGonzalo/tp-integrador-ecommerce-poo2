@@ -42,11 +42,15 @@ public class Draft extends State {
 	    order.getItems().forEach(i -> i.getItem().decreaseStock(i.getQuantity()));
 	    order.setPaymentReceipt(order.getPaymentMethod().getReceipt());
 	    order.setState(new Confirmed());
+	    
+	    //aca notificamos a todos los subscriptos del cambio de estado a confirmado
+	    order.notifySuccessfulProgress();
 	}
 	
 	// método para cancelar el pedido, setea el estado a CANCELADO
 	@Override
 	public void cancel(Order order) {
 		order.setState(new Canceled());
+		order.notifyCanceled();
 	}
 }

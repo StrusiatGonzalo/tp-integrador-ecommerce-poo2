@@ -18,11 +18,16 @@ public class InPreparation extends State {
 		order.registerCreditNote(new CreditNote(order.totalCost(), "costo total de los productos"));
 		order.registerCreditNote(new CreditNote(order.getShippingCost(), "costo del envio"));
 		order.setState(new Canceled()); // cambia el estado a CANCELADO
+		
+		order.notifyCanceled();
 	}
 	
 	// método para enviar el pedido - setea el estado a ENVIADO
 	@Override
 	public void send(Order order) {
 	    order.setState(new Sent());
+	    
+	    //aca notificamos a todos los subscriptos del cambio de estado a enviado
+	    order.notifySuccessfulProgress();
 	}
 }

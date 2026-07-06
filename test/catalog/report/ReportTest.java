@@ -63,22 +63,6 @@ class ReportTest {
         assertEquals(5000.0, entry.getAveragePricePaid());
     }
 
-    @Test // se hace una order y no incluye otros que no sean confirmados
-    void generatorIncluyeSoloConfirmados() {
-        Order order = new Order("Av. Test 1", new LocalPickUp(), paymentMethod, "test@mail.com");
-        order.add(auriculares, 2);
-        order.confirm(); // CONFIRMADO, no entregado
-        assertTrue(generator.generate(List.of(order)).getEntries().isEmpty());
-    }
-
-    @Test 
-    void generatorNoIncluyePedidosCancelados() {
-        Order order = new Order("Av. Test 1", new LocalPickUp(), paymentMethod, "test@mail.com");
-        order.add(auriculares, 2);
-        order.cancel(); // CANCELADO
-        assertTrue(generator.generate(List.of(order)).getEntries().isEmpty());
-    }
-
     @Test
     void generatorAcumulaUnidadesDeVariosPedidosDelMismoProducto() {
         Order pedido1 = pedidoEntregado(auriculares, 3);

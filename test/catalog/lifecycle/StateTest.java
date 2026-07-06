@@ -102,7 +102,6 @@ class StateTest {
 	void confirmadoPermiteStart() {
 		//order.add(venda, 2);
 		order.confirm();
-		assertTrue(order.getState().isSuccessfulProgress()); // cuando el estado se pone en confirmado se verifica
 		order.start();
 		assertEquals("EN_PREPARACION", order.getState().getName());
 	}
@@ -138,7 +137,6 @@ class StateTest {
 		order.confirm();
 		order.start();
 		order.send();
-		assertTrue(order.getState().isSuccessfulProgress());
 		assertEquals("ENVIADO", order.getState().getName());
 		
 	}
@@ -171,8 +169,6 @@ class StateTest {
 		order.start();
 		order.send();
 		order.deliver();
-		assertTrue(order.getState().isFinal()); // verifica que es un estado terminal
-		assertTrue(order.getState().isSuccessfulProgress());
 		assertEquals("ENTREGADO", order.getState().getName());
 	}
 
@@ -225,7 +221,6 @@ class StateTest {
 	void canceladoNoPermiteConfirmar() {
 		//order.add(venda, 1);
 		order.cancel();
-		assertTrue(order.getState().isCancelled()); // verifica que es un estado cancelado
 		assertThrows(IllegalStateException.class, () -> order.confirm());
 	}
 }

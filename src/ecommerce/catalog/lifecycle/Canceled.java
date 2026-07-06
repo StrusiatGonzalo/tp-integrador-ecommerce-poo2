@@ -8,9 +8,4 @@ public class Canceled extends State {
 	public String getName() {
 		return "CANCELADO";
 	}
-	
-	@Override
-	public boolean isCancelled() { // Es cancelable
-		return true;
-	}
 }

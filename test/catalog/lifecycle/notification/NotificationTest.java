@@ -6,18 +6,11 @@ import static org.mockito.Mockito.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import ecommerce.catalog.Product;
-import ecommerce.catalog.lifecycle.Canceled;
-import ecommerce.catalog.lifecycle.Confirmed;
-import ecommerce.catalog.lifecycle.Delivered;
-import ecommerce.catalog.lifecycle.Draft;
-import ecommerce.catalog.lifecycle.InPreparation;
 import ecommerce.catalog.lifecycle.Order;
-import ecommerce.catalog.lifecycle.Sent;
 import ecommerce.catalog.lifecycle.notifications.EmailNotifier;
 import ecommerce.catalog.lifecycle.notifications.InvoiceGenerator;
 import ecommerce.catalog.lifecycle.notifications.LoyaltyProgram;
@@ -34,103 +27,151 @@ class NotificationTest {
     EmailNotifier emailNotifier;
     LoyaltyProgram loyaltyProgram;
     InvoiceGenerator invoiceGenerator;
+
+    Product venda;
     Order order;
 
     @BeforeEach
     void setUp() {
-        emailNotifier = new EmailNotifier(mailSender);
-        loyaltyProgram = new LoyaltyProgram(mailSender);
+        emailNotifier    = new EmailNotifier(mailSender);
+        loyaltyProgram   = new LoyaltyProgram(mailSender);
         invoiceGenerator = new InvoiceGenerator();
 
+        venda = new Product("V01", "Venda", "Suavet", "Apositos", "desc", 1.0, 500.0, 10);
         order = new Order("Av. Siempreviva 742", new LocalPickUp(), paymentMethod, "cliente@mail.com");
+        order.add(venda, 2);
     }
 
-    // EMAIL NOTIFIER 
-    @Test // envia un correo cuando pasa de borrador a confirmado
+    // ── EMAIL NOTIFIER ──────────────────────────────────────────────
+
+    @Test
     void emailEnviaMailCuandoPasaAConfirmado() {
-        emailNotifier.onStateChanged(order, new Draft(), new Confirmed());
-        verify(mailSender).enviarMail(eq("cliente@mail.com"), any(), any(), any()); // esta verificando que la api se ejecuto 
+        order.subscribe(emailNotifier);
+        order.confirm(); // Draft → Confirmed → notifySuccessfulProgress
+        verify(mailSender).enviarMail(eq("cliente@mail.com"), any(), any(), any());
     }
 
-    @Test // envia un correo cuando pasa de confirmado a enviado
+    @Test
     void emailEnviaMailCuandoPasaAEnviado() {
-        emailNotifier.onStateChanged(order, new Confirmed(), new Sent());
-        verify(mailSender).enviarMail(eq("cliente@mail.com"), any(), any(), any());
+        order.subscribe(emailNotifier);
+        order.confirm();
+        order.start();
+        order.send(); // InPreparation → Sent → notifySuccessfulProgress
+        verify(mailSender, times(2)) // confirm + send
+            .enviarMail(eq("cliente@mail.com"), any(), any(), any());
     }
 
-    @Test // envia un correo cuando pasa de enviado a entregado
+    @Test
     void emailEnviaMailCuandoPasaAEntregado() {
-        emailNotifier.onStateChanged(order, new Sent(), new Delivered());
-        verify(mailSender).enviarMail(eq("cliente@mail.com"), any(), any(), any());
+        order.subscribe(emailNotifier);
+        order.confirm();
+        order.start();
+        order.send();
+        order.deliver(); // Sent → Delivered → notifySuccessfulProgress + notifyFinal
+        verify(mailSender, times(3)) // confirm + send + deliver
+            .enviarMail(eq("cliente@mail.com"), any(), any(), any());
     }
 
-    @Test // envia un correo cuando pasa de borrador a cancelado
+    @Test
     void emailNoEnviaMailCuandoPasaACancelado() {
-        emailNotifier.onStateChanged(order, new Draft(), new Canceled());
+        order.subscribe(emailNotifier);
+        order.cancel(); // Draft → Canceled → solo notifyCanceled, no notifySuccessfulProgress
         verifyNoInteractions(mailSender);
     }
 
-    @Test // envia un correo cuando pasa de confirmado a en preparacion
+    @Test
     void emailNoEnviaMailCuandoPasaAEnPreparacion() {
-        emailNotifier.onStateChanged(order, new Confirmed(), new InPreparation());
-        verifyNoInteractions(mailSender);
+        order.subscribe(emailNotifier);
+        order.confirm(); // notifySuccessfulProgress → 1 mail
+        order.start();   // Draft → InPreparation → sin notificación de email
+
+        // solo 1 mail (el del confirm), start no dispara notifySuccessfulProgress
+        verify(mailSender, times(1))
+            .enviarMail(eq("cliente@mail.com"), any(), any(), any());
     }
 
-    @Test // envia un correo cuando pasa de borrador a confirmado
-    void emailElMensajeContieneElNuevoEstado() {
-        emailNotifier.onStateChanged(order, new Draft(), new Confirmed());
-        ArgumentCaptor<String> mensaje = ArgumentCaptor.forClass(String.class);
-        verify(mailSender).enviarMail(any(), any(), mensaje.capture(), any());
-        assertTrue(mensaje.getValue().contains("CONFIRMADO"));
-    }
+    // ── LOYALTY PROGRAM ─────────────────────────────────────────────
 
-    // LOYALTY PROGRAM (programa de fidelizacion)
-    @Test // el programa envia un cupon cuando el estado pasa a cancelado
-    void loyaltyEnviaCuponCuandoPasaACancelado() {
-        loyaltyProgram.onStateChanged(order, new Confirmed(), new Canceled());
+    @Test
+    void loyaltyEnviaCuponCuandoSeCancelaDesdeConfirmado() {
+        order.subscribe(loyaltyProgram);
+        order.confirm();
+        order.cancel(); // Confirmed → Canceled → notifyCanceled
         verify(mailSender).enviarMail(eq("cliente@mail.com"), eq("CUPON DE DESCUENTO"), any(), any());
     }
 
-    @Test // transiciona a todos los estados y no envia ningun mail
-    void loyaltyNoEnviaCuponParaNingunaOtraTransicion() {
-        loyaltyProgram.onStateChanged(order, new Draft(), new Confirmed());
-        loyaltyProgram.onStateChanged(order, new Confirmed(), new InPreparation());
-        loyaltyProgram.onStateChanged(order, new Sent(), new Delivered());
+    @Test
+    void loyaltyEnviaCuponCuandoSeCancelaDesdeEnPreparacion() {
+        order.subscribe(loyaltyProgram);
+        order.confirm();
+        order.start();
+        order.cancel(); // InPreparation → Canceled → notifyCanceled
+        verify(mailSender).enviarMail(eq("cliente@mail.com"), eq("CUPON DE DESCUENTO"), any(), any());
+    }
+
+    @Test
+    void loyaltyEnviaCuponCuandoSeCancelaDesdeEnviado() {
+        order.subscribe(loyaltyProgram);
+        order.confirm();
+        order.start();
+        order.send();
+        order.cancel(); // Sent → Canceled → notifyCanceled
+        verify(mailSender).enviarMail(eq("cliente@mail.com"), eq("CUPON DE DESCUENTO"), any(), any());
+    }
+
+    @Test
+    void loyaltyNoEnviaCuponSiElPedidoSeEntrega() {
+        order.subscribe(loyaltyProgram);
+        order.confirm();
+        order.start();
+        order.send();
+        order.deliver(); // flujo exitoso — nunca notifyCanceled
         verifyNoInteractions(mailSender);
     }
 
-    // INVOICE GENERATOR 
-    @Test // crea una factura cuando el pedido pasa a entregado
-    void invoiceGeneratorCreaFacturaCuandoElPedidoEsEntregado() {
-        invoiceGenerator.onStateChanged(order, new Sent(), new Delivered());
-        assertEquals(1, invoiceGenerator.getInvoices().size());
-    }
+    // ── INVOICE GENERATOR ────────────────────────────────────────────
 
-    @Test // no genera una factura cuando el estado es cancelado
-    void invoiceGeneratorNoGeneraFacturaCuandoEsCancelado() {
-        invoiceGenerator.onStateChanged(order, new Sent(), new Canceled());
-        assertEquals(0, invoiceGenerator.getInvoices().size());
-    }
-
-    @Test // no genera factura cuando es confirmado
-    void invoiceGeneratorNoGeneraFacturaCuandoEsConfirmado() {
-        invoiceGenerator.onStateChanged(order, new Draft(), new Confirmed());
-        assertEquals(0, invoiceGenerator.getInvoices().size());
-    }
-
-    @Test // se chequea los datos de la factura
-    void invoiceGeneratorIntegradoComoObserverGeneraUnaFacturaAlEntregar() {
-        Product venda = new Product("V01", "Venda", "Suavet", "Apositos", "desc", 1.0, 500.0, 10);
-        order.add(venda, 2);
+    @Test
+    void invoiceGeneratorCreaFacturaSoloCuandoSeEntrega() {
         order.subscribe(invoiceGenerator);
+        order.confirm();
+        order.start();
+        order.send();
+        order.deliver(); // Sent → Delivered → notifyFinal
+        assertEquals(1, invoiceGenerator.getInvoices().size());
+    }
 
-        order.confirm(); 
-        order.start();  
-        order.send();    
-        order.deliver(); 
+    @Test
+    void invoiceGeneratorNoGeneraFacturaSiSeCancela() {
+        order.subscribe(invoiceGenerator);
+        order.confirm();
+        order.start();
+        order.cancel(); // notifyCanceled, no notifyFinal
+        assertEquals(0, invoiceGenerator.getInvoices().size());
+    }
+
+    @Test
+    void invoiceGeneratorVerificaDatosDeFactura() {
+        order.subscribe(invoiceGenerator);
+        order.confirm();
+        order.start();
+        order.send();
+        order.deliver();
 
         assertEquals(1, invoiceGenerator.getInvoices().size());
-        assertEquals(1000.0, invoiceGenerator.getInvoices().get(0).getAmount()); 
+        assertEquals(1000.0, invoiceGenerator.getInvoices().get(0).getAmount()); // 2 * 500, envío = 0
         assertEquals("Av. Siempreviva 742", invoiceGenerator.getInvoices().get(0).getAddress());
+    }
+
+    @Test
+    void unsubscribeDejaDeRecibirNotificaciones() {
+        order.subscribe(emailNotifier);
+        order.confirm();                  // 1 mail
+        order.unsubscribe(emailNotifier);
+        order.start();
+        order.send();                     // sin emailNotifier ya → no debería enviar más
+
+        verify(mailSender, times(1))
+            .enviarMail(any(), any(), any(), any());
     }
 }
